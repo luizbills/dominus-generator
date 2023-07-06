@@ -1,0 +1,8 @@
+h1 {
+    --typography-spacing-vertical: .5rem;
+}
+
+button,
+details > summary {
+    text-transform: uppercase;
+}
