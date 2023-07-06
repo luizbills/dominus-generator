@@ -5,18 +5,12 @@ document.querySelector('#download').addEventListener('click', (ev) => {
   });
 });
 
-const fonts = {
-  AlfaSlabOne: {
-    normal: location.origin + '/fonts/AlfaSlabOne-Regular.ttf',
-  },
-  Hind: {
-    normal: location.origin + '/fonts/Hind-Regular.ttf',
-    bold: location.origin + '/fonts/Hind-Bold.ttf',
-  },
-};
-
 function createPdf() {
-  return pdfMake.createPdf(getDocumentDefination(), null, fonts);
+  return pdfMake.createPdf(
+    getDocumentDefination(),
+    getTableLayouts(),
+    getFonts()
+  );
 }
 
 function getContent() {
@@ -30,28 +24,59 @@ function getContent() {
             // second column consists of paragraphs
             { text: 'NOME DO CENÁRIO', style: 'header' },
             {
-              text: 'Este jogo foi feito utilizando Dominus, um sistema de RPG sem mestre. Você encontrará todas as regras do Dominus no verso desta folha.',
+              text: 'Este jogo foi escrito por "NOME DO AUTOR" e foi publicado sob a Licença CC BY 4.0 (Creative Commons Atribuição 4.0 Internacional).',
+              style: 'body',
             },
             {
-              layout: 'lightHorizontalLines', // optional
-              table: {
-                // headers are automatically repeated if the table spans over multiple pages
-                // you can declare how many rows should be treated as headers
-                headerRows: 1,
-                widths: ['*', 'auto', 100, '*'],
-
-                body: [
-                  ['First', 'Second', 'Third', 'The last one'],
-                  ['Value 1', 'Value 2', 'Value 3', 'Value 4'],
-                  [
-                    { text: 'Bold value', bold: true },
-                    'Val 2',
-                    'Val 3',
-                    'Val 4',
-                  ],
-                ],
-              },
+              text: 'REGRAS',
+              style: 'subheader',
             },
+            {
+              style: 'body',
+              text: 'Este jogo foi feito utilizando Dominus, um sistema de RPG sem mestre para jogos rápidos. Você encontrará todas as regras básicas do sistema no verso desta folha.',
+            },
+            {
+              text: 'AMBIENTAÇÃO',
+              style: 'subheader',
+            },
+            {
+              style: 'body',
+              text: 'Uma breve descrição da ambientação do seu jogo, em geral em uma frase ou parágrafo curto.',
+            },
+            {
+              text: 'TRAMA',
+              style: 'subheader',
+            },
+            {
+              style: 'body',
+              text: 'Role (ou escolha) uma linha de cada uma dessas três colunas:',
+            },
+            createTable(
+              ['ALGO ACONTECEU...', 'VOCÊ PRECISA...', 'SENÃO...'],
+              [
+                ['', '', ''],
+                ['', '', ''],
+                ['', '', ''],
+                ['', '', ''],
+                ['', '', ''],
+                ['', '', ''],
+              ]
+            ),
+            {
+              text: 'ARQUÉTIPOS',
+              style: 'subheader',
+            },
+            {
+              style: 'body',
+              text: 'Role (ou escolha) na tabela abaixo para montar seu personagem:',
+            },
+            createTable(
+              null,
+              [['bla'], ['bla'], ['bla'], ['bla'], ['bla'], ['bla']],
+              {
+                headerRows: 0,
+              }
+            ),
           ],
         },
         {
@@ -75,33 +100,15 @@ function getDocumentDefination() {
   return {
     pageSize: 'A4',
     pageOrientation: 'landscape',
-    pageMargins: [25, 25],
+    pageMargins: 25,
     styles: getStyles(),
     pages: 6,
-    defaultStyle: {
-      font: 'Hind',
-      fontSize: 9,
-    },
+    defaultStyle: getStyles().defaultStyle,
     content: getContent(),
-  };
-}
-
-function getStyles() {
-  return {
-    header: {
-      font: 'AlfaSlabOne',
-      fontSize: 26,
-    },
   };
 }
 
 function OpenWindow(content, title = '') {
   var _window = window.open(content, title);
-  if (_window) {
-    // _window.document.write(
-    //   `<html><head><title>${title}</title><style>body{margin:0; overflow: hidden;}</style></head><body height="100%" width="100%"><iframe src="${content}" height="100%" width="100%"></iframe></body></html>`
-    // );
-    _window.console.log(_window);
-  }
   return _window;
 }
