@@ -1,11 +1,12 @@
 function getFonts() {
   return {
     AlfaSlabOne: {
-      normal: location.origin + '/fonts/AlfaSlabOne-Regular.ttf',
+      normal: getUrl('/fonts/AlfaSlabOne-Regular.ttf'),
     },
     Hind: {
-      normal: location.origin + '/fonts/Hind-Regular.ttf',
-      bold: location.origin + '/fonts/Hind-Bold.ttf',
+      normal: getUrl('/fonts/Hind-Regular.ttf'),
+      italics: getUrl('/fonts/Hind-Regular.ttf'),
+      bold: getUrl('/fonts/Hind-Bold.ttf'),
     },
   };
 }

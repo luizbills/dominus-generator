@@ -24,6 +24,10 @@ function getTableLayouts() {
     },
   };
   return {
+    invisible: {
+      hLineWidth: () => 0,
+      vLineWidth: () => 0,
+    },
     noHeaders: {
       ...def,
       hLineWidth(i, node) {
@@ -48,6 +52,7 @@ function createTable(headers, lines, opts = {}) {
       widths: [],
       body: [],
     },
+    margin: [0, 0, 0, 6],
   };
 
   if (opts.widths) {
@@ -88,5 +93,6 @@ function createTable(headers, lines, opts = {}) {
     object.table.body.push(line);
   }
 
+  console.log(object);
   return object;
 }

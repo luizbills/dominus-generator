@@ -31,19 +31,28 @@
         <summary>Informações Básicas</summary>
         <label>
           Título:
-          <input type="text" placeholder="Nome legal do seu cenário" />
+          <input
+            id="title"
+            type="text"
+            placeholder="Nome legal do seu cenário"
+          />
         </label>
         <label>
           Nome do autor:
-          <input type="text" placeholder="Nome de quem fez o jogo" />
+          <input
+            id="author"
+            type="text"
+            placeholder="Nome de quem fez o jogo"
+          />
         </label>
         <label>
           Imagem da capa:
-          <input type="file" name="" id="" />
+          <input id="cover" type="file" name="" id="" />
         </label>
-        <label>
+
+        <!-- <label>
           Licença:
-          <select name="" id="">
+          <select id="license" name="" id="">
             <option value="">Sem licença</option>
             <option value="">CC BY 4.0</option>
             <option value="">CC BY SA 4.0</option>
@@ -52,11 +61,12 @@
             <option value="">Domínio Público</option>
           </select>
           <small>Saiba mais sobre a <a href="#">licença CC BY</a>.</small>
-        </label>
+        </label> -->
 
         <label>
           Ambientação:
           <textarea
+            id="description"
             rows="4"
             placeholder="Uma breve descrição da ambientação do seu jogo, em geral em uma frase."
           ></textarea>
@@ -68,50 +78,50 @@
 
         <strong>Algo aconteceu...</strong>
         <div class="grid">
-          <input type="text" placeholder="1" />
-          <input type="text" placeholder="2" />
-          <input type="text" placeholder="3" />
+          <input id="plot_1" type="text" placeholder="1" />
+          <input id="plot_2" type="text" placeholder="2" />
+          <input id="plot_3" type="text" placeholder="3" />
         </div>
         <div class="grid">
-          <input type="text" placeholder="4" />
-          <input type="text" placeholder="5" />
-          <input type="text" placeholder="6" />
+          <input id="plot_4" type="text" placeholder="4" />
+          <input id="plot_5" type="text" placeholder="5" />
+          <input id="plot_6" type="text" placeholder="6" />
         </div>
 
         <strong>Você precisa...</strong>
         <div class="grid">
-          <input type="text" placeholder="1" />
-          <input type="text" placeholder="2" />
-          <input type="text" placeholder="3" />
+          <input id="mission_1" type="text" placeholder="1" />
+          <input id="mission_2" type="text" placeholder="2" />
+          <input id="mission_3" type="text" placeholder="3" />
         </div>
         <div class="grid">
-          <input type="text" placeholder="4" />
-          <input type="text" placeholder="5" />
-          <input type="text" placeholder="6" />
+          <input id="mission_4" type="text" placeholder="4" />
+          <input id="mission_5" type="text" placeholder="5" />
+          <input id="mission_6" type="text" placeholder="6" />
         </div>
 
         <strong>Senão...</strong>
         <div class="grid">
-          <input type="text" placeholder="1" />
-          <input type="text" placeholder="2" />
-          <input type="text" placeholder="3" />
+          <input id="ifnot_1" type="text" placeholder="1" />
+          <input id="ifnot_2" type="text" placeholder="2" />
+          <input id="ifnot_3" type="text" placeholder="3" />
         </div>
         <div class="grid">
-          <input type="text" placeholder="4" />
-          <input type="text" placeholder="5" />
-          <input type="text" placeholder="6" />
+          <input id="ifnot_4" type="text" placeholder="4" />
+          <input id="ifnot_5" type="text" placeholder="5" />
+          <input id="ifnot_6" type="text" placeholder="6" />
         </div>
       </details>
 
       <details>
         <summary>Arquétipos</summary>
 
-        <input type="text" placeholder="1" />
-        <input type="text" placeholder="2" />
-        <input type="text" placeholder="3" />
-        <input type="text" placeholder="4" />
-        <input type="text" placeholder="5" />
-        <input type="text" placeholder="6" />
+        <input id="archtype_1" type="text" placeholder="1" />
+        <input id="archtype_2" type="text" placeholder="2" />
+        <input id="archtype_3" type="text" placeholder="3" />
+        <input id="archtype_4" type="text" placeholder="4" />
+        <input id="archtype_5" type="text" placeholder="5" />
+        <input id="archtype_6" type="text" placeholder="6" />
       </details>
 
       <details>
@@ -260,6 +270,7 @@
     </footer>
 
     <script src="js/pdfmake.min.js"></script>
+    <script src="js/helpers.js"></script>
     <script src="js/fonts.js"></script>
     <script src="js/styles.js"></script>
     <script src="js/table.js"></script>
