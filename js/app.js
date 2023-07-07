@@ -14,29 +14,45 @@ if (isMobile()) {
   btnPreview.addEventListener('click', (ev) => {
     const data = getData();
     if (!validateData(data)) return;
-    readCover((result, evt) => {
-      data.coverImage = result;
-      createPdf(data).getBlob((blob) => {
-        try {
-          const urlCreator = URL;
-          const pdfUrl = urlCreator.createObjectURL(blob);
-          window.open(pdfUrl, 'dominusgenPreview');
-        } catch (e) {
-          reject(e);
-        }
-      });
-    });
+    btnPreview.setAttribute('aria-busy', 'true');
+    btnPreview.disabled = true;
+    readCover(
+      (result, evt) => {
+        data.coverImage = result;
+        createPdf(data).getBlob((blob) => {
+          try {
+            const urlCreator = URL;
+            const pdfUrl = urlCreator.createObjectURL(blob);
+            window.open(pdfUrl, 'dominusgenPreview');
+          } catch (e) {
+            reject(e);
+          }
+        });
+      },
+      () => {
+        btnPreview.removeAttribute('aria-busy');
+        btnPreview.disabled = false;
+      }
+    );
   });
 }
 
 btnDownload.addEventListener('click', (ev) => {
   const data = getData();
   if (!validateData(data)) return;
-  readCover((result, evt) => {
-    data.coverImage = result;
-    const title = data.title ? `dominus-${data.title}` : 'dominus';
-    createPdf(data).download(slugify(title));
-  });
+  btnDownload.setAttribute('aria-busy', 'true');
+  btnDownload.disabled = true;
+  readCover(
+    (result, evt) => {
+      data.coverImage = result;
+      const title = data.title ? `dominus-${data.title}` : 'dominus';
+      createPdf(data).download(slugify(title));
+    },
+    () => {
+      btnDownload.removeAttribute('aria-busy');
+      btnDownload.disabled = false;
+    }
+  );
 });
 
 // auto save

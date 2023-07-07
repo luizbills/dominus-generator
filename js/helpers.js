@@ -1,3 +1,8 @@
+/**
+ * @param {string} selector
+ * @param {HTMLElement|null} root
+ * @returns {HTMLElement}
+ */
 function $(selector, root = document) {
   return root.querySelector(selector);
 }
@@ -70,16 +75,18 @@ function slugify(str) {
     .replace(/-+/g, '-'); // remove consecutive hyphens
 }
 
-function readCover(callback) {
+function readCover(callback, alwaysCallback = null) {
   const input = $('#cover');
   const fr = new FileReader();
   const file = input.files[0];
 
   fr.addEventListener('load', function (evt) {
     if (!file.type.includes('image')) {
-      return alert('Arquivo inválido para imagem da capa.');
+      alert('Arquivo inválido para imagem da capa.');
+    } else {
+      callback(evt.target.result, evt);
     }
-    callback(evt.target.result, evt);
+    alwaysCallback && alwaysCallback(evt);
   });
 
   if (file) {
