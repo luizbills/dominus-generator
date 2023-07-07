@@ -2,6 +2,10 @@ h1 {
   --typography-spacing-vertical: 0.5rem;
 }
 
+main {
+  --block-spacing-vertical: 0 !important;
+}
+
 button,
 details > summary {
   text-transform: uppercase;
@@ -10,4 +14,10 @@ details > summary {
 
 .inline {
   display: inline;
+}
+
+#actions,
+#copyright {
+  margin-top: 3rem;
+  text-align: center;
 }
