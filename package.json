@@ -9,9 +9,12 @@
     "type": "git",
     "url": "git+https://github.com/luizbills/dominus-generator.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "ttrpg",
+    "dominus"
+  ],
+  "author": "Luiz Bills",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/luizbills/dominus-generator/issues"
   },
