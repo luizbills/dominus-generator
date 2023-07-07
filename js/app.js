@@ -1,5 +1,12 @@
 const btnPreview = $('#preview');
 const btnDownload = $('#download');
+const URL = window.URL || window.webkitURL;
+const url = new URL(location.href);
+const theme = url.searchParams.get('theme');
+
+if ('dark' === theme || 'light' === theme) {
+  document.documentElement.dataset.theme = url.searchParams.get('mode');
+}
 
 if (isMobile()) {
   btnPreview.style.display = 'none';
@@ -9,7 +16,15 @@ if (isMobile()) {
     if (!validateData(data)) return;
     readCover((result, evt) => {
       data.coverImage = result;
-      createPdf(data).open();
+      createPdf(data).getBlob((blob) => {
+        try {
+          const urlCreator = URL;
+          const pdfUrl = urlCreator.createObjectURL(blob);
+          window.open(pdfUrl, 'dominusgenPreview');
+        } catch (e) {
+          reject(e);
+        }
+      });
     });
   });
 }
