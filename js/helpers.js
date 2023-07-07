@@ -23,8 +23,8 @@ function getDocumentDefination(data) {
     background: getBackgroundLayer(data),
     content: getContent(data),
     info: {
-      title: data.title,
-      author: data.author,
+      title: cleanString(data.title),
+      author: cleanString(data.author),
       subject: 'Jogo de RPG baseado no Dominus',
       keywords: 'ttrpg, solo, gmless, dominus',
       creator: 'DOMINUSGEN',
@@ -75,17 +75,17 @@ function slugify(str) {
     .replace(/-+/g, '-'); // remove consecutive hyphens
 }
 
-function readCover(callback, alwaysCallback = null) {
-  if (window.demoMode) {
-    callback(null);
-    alwaysCallback();
+function readCoverImage(callback, alwaysCallback = null) {
+  const input = $('#cover');
+  const file = input.files ? input.files[0] : null;
+
+  if (window.demoMode && null == file) {
+    callback(window.demoCoverImage);
+    alwaysCallback && alwaysCallback();
     return;
   }
 
-  const input = $('#cover');
   const fr = new FileReader();
-  const file = input.files[0];
-
   fr.addEventListener('load', function (evt) {
     if (!file.type.includes('image')) {
       alert('Arquivo inválido para imagem da capa.');
@@ -102,7 +102,7 @@ function readCover(callback, alwaysCallback = null) {
   }
 }
 
-function getData() {
+function getData(format = true) {
   const root = $('#fields');
   const fields = $$('input, textarea, select', root);
 
@@ -111,7 +111,7 @@ function getData() {
     data[field.id] = field.value || '';
   }
 
-  return data;
+  return format ? formatData(data) : data;
 }
 
 function formatData(data) {
@@ -120,6 +120,10 @@ function formatData(data) {
     data[key] = data[key].replace(/\\n/g, '\n');
   }
   return data;
+}
+
+function cleanString(str) {
+  return str.replace(/[^0-9A-Z\s]/g, '').trim();
 }
 
 function isMobile() {

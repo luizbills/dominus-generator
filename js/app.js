@@ -13,13 +13,13 @@ if (isMobile()) {
   btnPreview.style.display = 'none';
 } else {
   btnPreview.addEventListener('click', (ev) => {
-    const data = demoMode ? getDemo() : getData();
+    const data = getData();
     if (!validateData(data)) return;
     btnPreview.setAttribute('aria-busy', 'true');
     btnPreview.disabled = true;
-    readCover(
+    readCoverImage(
       (result) => {
-        data.coverImage = data.coverImage ? data.coverImage : result;
+        data.coverImage = result;
         createPdf(data).getBlob((blob) => {
           try {
             const urlCreator = URL;
@@ -39,13 +39,13 @@ if (isMobile()) {
 }
 
 btnDownload.addEventListener('click', (ev) => {
-  const data = demoMode ? getDemo() : getData();
+  const data = getData();
   if (!validateData(data)) return;
   btnDownload.setAttribute('aria-busy', 'true');
   btnDownload.disabled = true;
-  readCover(
+  readCoverImage(
     (result) => {
-      data.coverImage = data.coverImage ? data.coverImage : result;
+      data.coverImage = result;
       const title = data.title ? `dominus-${data.title}` : 'dominus';
       createPdf(data).download(slugify(title));
     },
@@ -63,7 +63,7 @@ if (!demoMode) {
   function autoSave() {
     if (autosaving) return;
     autosaving = true;
-    const data = getData();
+    const data = getData(false);
     delete data.cover;
     localStorage.setItem('dominus-pt_BR', JSON.stringify(data));
     autosaving = false;
@@ -75,7 +75,10 @@ if (!demoMode) {
 document.addEventListener('DOMContentLoaded', () => {
   const dataJson = localStorage.getItem('dominus-pt_BR');
   try {
-    const data = demoMode ? getDemo() : JSON.parse(dataJson);
+    const data = demoMode ? getDemo() : JSON.parse(dataJson || '{}');
+    if (demoMode) {
+      window.demoCoverImage = data.coverImage;
+    }
     for (const key of Object.keys(data)) {
       if (!key) continue;
       const field = $(`#${key}`);
@@ -209,7 +212,12 @@ function getContent(data) {
               style: 'subheader',
             },
             createTable(
-              ['AÇÃO', 'ASSUNTO', 'COISA', 'QUALIDADE'],
+              [
+                data.idea_col_1_name.toUpperCase(),
+                data.idea_col_2_name.toUpperCase(),
+                data.idea_col_3_name.toUpperCase(),
+                data.idea_col_4_name.toUpperCase(),
+              ],
               [
                 [
                   data.idea_col_1_1,
