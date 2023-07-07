@@ -1,8 +1,12 @@
 h1 {
-    --typography-spacing-vertical: .5rem;
+  --typography-spacing-vertical: 0.5rem;
 }
 
 button,
 details > summary {
-    text-transform: uppercase;
+  text-transform: uppercase;
+}
+
+.inline {
+  display: inline;
 }
