@@ -5,6 +5,7 @@ h1 {
 button,
 details > summary {
   text-transform: uppercase;
+  font-weight: bold;
 }
 
 .inline {
