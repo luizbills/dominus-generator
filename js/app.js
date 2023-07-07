@@ -6,7 +6,7 @@ const theme = url.searchParams.get('theme');
 window.demoMode = url.searchParams.get('demo') != null;
 
 if ('dark' === theme || 'light' === theme) {
-  document.documentElement.dataset.theme = url.searchParams.get('mode');
+  document.documentElement.dataset.theme = theme;
 }
 
 if (isMobile()) {
