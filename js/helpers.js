@@ -17,6 +17,13 @@ function getDocumentDefination(data) {
     images: getImages(data),
     background: getBackgroundLayer(data),
     content: getContent(data),
+    info: {
+      title: data.title,
+      author: data.author,
+      subject: 'Jogo de RPG baseado no Dominus',
+      keywords: 'ttrpg, solo, gmless, dominus',
+      creator: 'DOMINUSGEN',
+    },
   };
 }
 
