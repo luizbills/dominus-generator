@@ -26,8 +26,8 @@
         >
       </p>
     </header>
-    <div class="container">
-      <details>
+    <div class="container" id="fields">
+      <details open>
         <summary>Informações Básicas</summary>
         <label>
           Título:
@@ -47,7 +47,12 @@
         </label>
         <label>
           Imagem da capa:
-          <input id="cover" type="file" name="" id="" />
+          <input
+            id="cover"
+            type="file"
+            accept="image/png, image/jpg, image/jpeg"
+          />
+          <small>É recomendado uma imagem com 500 de largura e altura.</small>
         </label>
 
         <!-- <label>
@@ -129,38 +134,38 @@
 
         <strong>Lugares</strong>
         <div class="grid">
-          <input type="text" placeholder="1" />
-          <input type="text" placeholder="2" />
-          <input type="text" placeholder="3" />
+          <input id="place_1" type="text" placeholder="1" />
+          <input id="place_2" type="text" placeholder="2" />
+          <input id="place_3" type="text" placeholder="3" />
         </div>
         <div class="grid">
-          <input type="text" placeholder="4" />
-          <input type="text" placeholder="5" />
-          <input type="text" placeholder="6" />
+          <input id="place_4" type="text" placeholder="4" />
+          <input id="place_5" type="text" placeholder="5" />
+          <input id="place_6" type="text" placeholder="6" />
         </div>
 
         <strong>Personagens</strong>
         <div class="grid">
-          <input type="text" placeholder="1" />
-          <input type="text" placeholder="2" />
-          <input type="text" placeholder="3" />
+          <input id="char_1" type="text" placeholder="1" />
+          <input id="char_2" type="text" placeholder="2" />
+          <input id="char_3" type="text" placeholder="3" />
         </div>
         <div class="grid">
-          <input type="text" placeholder="4" />
-          <input type="text" placeholder="5" />
-          <input type="text" placeholder="6" />
+          <input id="char_4" type="text" placeholder="4" />
+          <input id="char_5" type="text" placeholder="5" />
+          <input id="char_6" type="text" placeholder="6" />
         </div>
 
         <strong>Eventos</strong>
         <div class="grid">
-          <input type="text" placeholder="1" />
-          <input type="text" placeholder="2" />
-          <input type="text" placeholder="3" />
+          <input id="event_1" type="text" placeholder="1" />
+          <input id="event_2" type="text" placeholder="2" />
+          <input id="event_3" type="text" placeholder="3" />
         </div>
         <div class="grid">
-          <input type="text" placeholder="4" />
-          <input type="text" placeholder="5" />
-          <input type="text" placeholder="6" />
+          <input id="event_4" type="text" placeholder="4" />
+          <input id="event_5" type="text" placeholder="5" />
+          <input id="event_6" type="text" placeholder="6" />
         </div>
       </details>
 
@@ -169,59 +174,74 @@
 
         <label> 1ª Coluna: <input type="text" value="Assunto" /> </label>
         <div class="grid">
-          <input type="text" placeholder="1" />
-          <input type="text" placeholder="2" />
-          <input type="text" placeholder="3" />
+          <input id="idea_col_1_1" type="text" placeholder="1" />
+          <input id="idea_col_1_2" type="text" placeholder="2" />
+          <input id="idea_col_1_3" type="text" placeholder="3" />
         </div>
         <div class="grid">
-          <input type="text" placeholder="4" />
-          <input type="text" placeholder="5" />
-          <input type="text" placeholder="6" />
+          <input id="idea_col_1_4" type="text" placeholder="4" />
+          <input id="idea_col_1_5" type="text" placeholder="5" />
+          <input id="idea_col_1_6" type="text" placeholder="6" />
         </div>
 
         <label> 2ª Coluna: <input type="text" value="Ação" /> </label>
         <div class="grid">
-          <input type="text" placeholder="1" />
-          <input type="text" placeholder="2" />
-          <input type="text" placeholder="3" />
+          <input id="idea_col_2_1" type="text" placeholder="1" />
+          <input id="idea_col_2_2" type="text" placeholder="2" />
+          <input id="idea_col_2_3" type="text" placeholder="3" />
         </div>
         <div class="grid">
-          <input type="text" placeholder="4" />
-          <input type="text" placeholder="5" />
-          <input type="text" placeholder="6" />
-        </div>
-
-        <label> 2ª Coluna: <input type="text" value="Coisa" /> </label>
-        <div class="grid">
-          <input type="text" placeholder="1" />
-          <input type="text" placeholder="2" />
-          <input type="text" placeholder="3" />
-        </div>
-        <div class="grid">
-          <input type="text" placeholder="4" />
-          <input type="text" placeholder="5" />
-          <input type="text" placeholder="6" />
+          <input id="idea_col_2_4" type="text" placeholder="4" />
+          <input id="idea_col_2_5" type="text" placeholder="5" />
+          <input id="idea_col_2_6" type="text" placeholder="6" />
         </div>
 
-        <label> 2ª Coluna: <input type="text" value="Qualidade" /> </label>
+        <label> 3ª Coluna: <input type="text" value="Coisa" /> </label>
         <div class="grid">
-          <input type="text" placeholder="1" />
-          <input type="text" placeholder="2" />
-          <input type="text" placeholder="3" />
+          <input id="idea_col_3_1" type="text" placeholder="1" />
+          <input id="idea_col_3_2" type="text" placeholder="2" />
+          <input id="idea_col_3_3" type="text" placeholder="3" />
         </div>
         <div class="grid">
-          <input type="text" placeholder="4" />
-          <input type="text" placeholder="5" />
-          <input type="text" placeholder="6" />
+          <input id="idea_col_3_4" type="text" placeholder="4" />
+          <input id="idea_col_3_5" type="text" placeholder="5" />
+          <input id="idea_col_3_6" type="text" placeholder="6" />
+        </div>
+
+        <label> 4ª Coluna: <input type="text" value="Qualidade" /> </label>
+        <div class="grid">
+          <input id="idea_col_4_1" type="text" placeholder="1" />
+          <input id="idea_col_4_2" type="text" placeholder="2" />
+          <input id="idea_col_4_3" type="text" placeholder="3" />
+        </div>
+        <div class="grid">
+          <input id="idea_col_4_4" type="text" placeholder="4" />
+          <input id="idea_col_4_5" type="text" placeholder="5" />
+          <input id="idea_col_4_6" type="text" placeholder="6" />
         </div>
       </details>
 
       <details>
         <summary>Regras X</summary>
 
+        <p>
+          Deixe em branco os campos de Regras X que seu jogo não for precisar.
+        </p>
+
+        <p>
+          Lembre-se que o espaço para Regras X é bem limitado. Então, tome
+          cuidado para não criar regras muito longas, pois isso poderá quebrar a
+          formatação do PDF.
+        </p>
+
         <label>
-          <input type="text" placeholder="Nome da 1ª Regra X" />
+          <input
+            id="rule_x_title_1"
+            type="text"
+            placeholder="Nome da 1ª Regra X"
+          />
           <textarea
+            id="rule_x_text_1"
             rows="3"
             placeholder="Deixe em branco se não for usar"
           ></textarea>
@@ -229,8 +249,13 @@
         <hr />
 
         <label>
-          <input type="text" placeholder="Nome da 2ª Regra X" />
+          <input
+            id="rule_x_title_2"
+            type="text"
+            placeholder="Nome da 2ª Regra X"
+          />
           <textarea
+            id="rule_x_text_2"
             rows="3"
             placeholder="Deixe em branco se não for usar"
           ></textarea>
@@ -238,8 +263,13 @@
         <hr />
 
         <label>
-          <input type="text" placeholder="Nome da 3ª Regra X" />
+          <input
+            id="rule_x_title_3"
+            type="text"
+            placeholder="Nome da 3ª Regra X"
+          />
           <textarea
+            id="rule_x_text_3"
             rows="3"
             placeholder="Deixe em branco se não for usar"
           ></textarea>
@@ -247,8 +277,13 @@
         <hr />
 
         <label>
-          <input type="text" placeholder="Nome da 4ª Regra X" />
+          <input
+            id="rule_x_title_4"
+            type="text"
+            placeholder="Nome da 4ª Regra X"
+          />
           <textarea
+            id="rule_x_text_4"
             rows="3"
             placeholder="Deixe em branco se não for usar"
           ></textarea>
@@ -256,8 +291,26 @@
         <hr />
 
         <label>
-          <input type="text" placeholder="Nome da 5ª Regra X" />
+          <input
+            id="rule_x_title_5"
+            type="text"
+            placeholder="Nome da 5ª Regra X"
+          />
           <textarea
+            id="rule_x_text_5"
+            rows="3"
+            placeholder="Deixe em branco se não for usar"
+          ></textarea>
+        </label>
+
+        <label>
+          <input
+            id="rule_x_title_6"
+            type="text"
+            placeholder="Nome da 6ª Regra X"
+          />
+          <textarea
+            id="rule_x_text_6"
             rows="3"
             placeholder="Deixe em branco se não for usar"
           ></textarea>
@@ -267,6 +320,7 @@
 
     <footer class="container">
       <button id="download">Baixar Seu Jogo</button>
+      <button id="preview" class="secondary">Visualizar</button>
     </footer>
 
     <script src="js/pdfmake.min.js"></script>

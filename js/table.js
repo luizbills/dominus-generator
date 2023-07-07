@@ -1,4 +1,4 @@
-function getTableLayouts() {
+function getTableLayouts(data) {
   const def = {
     hLineWidth(i, node) {
       if (0 === i) return 1;
@@ -50,9 +50,10 @@ function createTable(headers, lines, opts = {}) {
     table: {
       headerRows: opts.headerRows || 1,
       widths: [],
+      heights: opts.heights || null,
       body: [],
     },
-    margin: [0, 0, 0, 6],
+    margin: opts.margin || [0, 0, 0, 6],
   };
 
   if (opts.widths) {
@@ -93,6 +94,5 @@ function createTable(headers, lines, opts = {}) {
     object.table.body.push(line);
   }
 
-  console.log(object);
   return object;
 }

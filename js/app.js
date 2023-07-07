@@ -1,23 +1,79 @@
-document.querySelector('#download').addEventListener('click', (ev) => {
-  ev.preventDefault();
-  createPdf((pdf, data) => {
-    pdf.getDataUrl((dataUrl) => {
-      OpenWindow(dataUrl, 'dominus');
+const btnPreview = $('#preview');
+const btnDownload = $('#download');
+
+if (isMobile()) {
+  btnPreview.style.display = 'none';
+} else {
+  btnPreview.addEventListener('click', (ev) => {
+    const data = getData();
+    if (!validateData(data)) return;
+    readCover((result, evt) => {
+      data.coverImage = result;
+      createPdf(data).open();
     });
+  });
+}
+
+btnDownload.addEventListener('click', (ev) => {
+  const data = getData();
+  if (!validateData(data)) return;
+  readCover((result, evt) => {
+    data.coverImage = result;
+    const title = data.title ? `dominus-${data.title}` : 'dominus';
+    createPdf(data).download(slugify(title));
   });
 });
 
-function createPdf(callback) {
+// auto save
+let autosaveInterval = 30000; // 30 seconds
+let autosaving = false;
+function autoSave() {
+  if (autosaving) return;
+  autosaving = true;
   const data = getData();
+  delete data.cover;
+  localStorage.setItem('dominus-pt_BR', JSON.stringify(data));
+  autosaving = false;
+}
+setInterval(autoSave, autosaveInterval);
+
+// auto restore
+document.addEventListener('DOMContentLoaded', () => {
+  const dataJson = localStorage.getItem('dominus-pt_BR');
+  try {
+    const data = JSON.parse(dataJson);
+    for (const key of Object.keys(data)) {
+      if (!key) continue;
+      const field = $(`#${key}`);
+      if (!field) continue;
+      field.value = data[key];
+    }
+  } catch (e) {
+    console.error(e.message);
+  }
+});
+
+function createPdf(data) {
   const pdf = pdfMake.createPdf(
-    getDocumentDefination(),
-    getTableLayouts(),
-    getFonts()
+    getDocumentDefination(data),
+    getTableLayouts(data),
+    getFonts(data)
   );
-  callback(pdf, data);
+  return pdf;
 }
 
-function getContent() {
+function validateData(data) {
+  data.title = data.title?.trim();
+  if (!data.title) {
+    return !!alert('Seu jogo precisa de um título');
+  }
+  if (!data.cover) {
+    return !!alert('Seu jogo precisa de uma imagem de capa');
+  }
+  return true;
+}
+
+function getContent(data) {
   const columnGap = 40;
   return [
     // first page
@@ -27,9 +83,9 @@ function getContent() {
         {
           stack: [
             // second column consists of paragraphs
-            { text: 'NOME DO CENÁRIO', style: 'header' },
+            { text: data.title, style: 'header' },
             {
-              text: 'Este jogo foi escrito por "NOME DO AUTOR" e foi publicado sob a Licença CC BY 4.0 (Creative Commons Atribuição 4.0 Internacional).',
+              text: `Este jogo foi escrito por "${data.author}" e foi publicado sob a Licença CC BY 4.0 (Creative Commons Atribuição 4.0 Internacional).`,
               style: 'body',
             },
             {
@@ -46,7 +102,9 @@ function getContent() {
             },
             {
               style: 'body',
-              text: 'Uma breve descrição da ambientação do seu jogo, em geral em uma frase ou parágrafo curto.',
+              text:
+                data.description ||
+                'Uma breve descrição da ambientação do seu jogo, em geral em uma frase ou parágrafo curto.',
             },
             {
               text: 'TRAMA',
@@ -59,12 +117,12 @@ function getContent() {
             createTable(
               ['ALGO ACONTECEU...', 'VOCÊ PRECISA...', 'SENÃO...'],
               [
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', ''],
+                [data.plot_1, data.mission_1, data.ifnot_1],
+                [data.plot_2, data.mission_2, data.ifnot_2],
+                [data.plot_3, data.mission_3, data.ifnot_3],
+                [data.plot_4, data.mission_4, data.ifnot_4],
+                [data.plot_5, data.mission_5, data.ifnot_5],
+                [data.plot_6, data.mission_6, data.ifnot_6],
               ]
             ),
             {
@@ -77,7 +135,14 @@ function getContent() {
             },
             createTable(
               null,
-              [['bla'], ['bla'], ['bla'], ['bla'], ['bla'], ['bla']],
+              [
+                [data.archtype_1],
+                [data.archtype_2],
+                [data.archtype_3],
+                [data.archtype_4],
+                [data.archtype_5],
+                [data.archtype_6],
+              ],
               {
                 headerRows: 0,
               }
@@ -93,12 +158,12 @@ function getContent() {
             createTable(
               ['LUGARES', 'PERSONAGENS (1 a 3)', 'EVENTOS (4 a 6)'],
               [
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', ''],
+                [data.place_1, data.char_1, data.event_1],
+                [data.place_2, data.char_2, data.event_2],
+                [data.place_3, data.char_3, data.event_3],
+                [data.place_4, data.char_4, data.event_4],
+                [data.place_5, data.char_5, data.event_5],
+                [data.place_6, data.char_6, data.event_6],
               ]
             ),
             {
@@ -108,25 +173,54 @@ function getContent() {
             createTable(
               ['ASSUNTO', 'AÇÃO', 'COISA', 'QUALIDADE'],
               [
-                ['', '', '', ''],
-                ['', '', '', ''],
-                ['', '', '', ''],
-                ['', '', '', ''],
-                ['', '', '', ''],
-                ['', '', '', ''],
+                [
+                  data.idea_col_1_1,
+                  data.idea_col_2_1,
+                  data.idea_col_3_1,
+                  data.idea_col_4_1,
+                ],
+                [
+                  data.idea_col_1_2,
+                  data.idea_col_2_2,
+                  data.idea_col_3_2,
+                  data.idea_col_4_2,
+                ],
+                [
+                  data.idea_col_1_3,
+                  data.idea_col_2_3,
+                  data.idea_col_3_3,
+                  data.idea_col_4_3,
+                ],
+                [
+                  data.idea_col_1_4,
+                  data.idea_col_2_4,
+                  data.idea_col_3_4,
+                  data.idea_col_4_4,
+                ],
+                [
+                  data.idea_col_1_5,
+                  data.idea_col_2_5,
+                  data.idea_col_3_5,
+                  data.idea_col_4_5,
+                ],
+                [
+                  data.idea_col_1_6,
+                  data.idea_col_2_6,
+                  data.idea_col_3_6,
+                  data.idea_col_4_6,
+                ],
               ],
               {
                 widths: ['*', '*', '*', '*'],
               }
             ),
             // createSpacer(0),
-            {
-              text: [
-                { text: 'REGRA X - SASASASASA', bold: true },
-                ': assasaasassasasa',
-              ],
-              style: 'body',
-            },
+            getRuleX(1, data),
+            getRuleX(2, data),
+            getRuleX(3, data),
+            getRuleX(4, data),
+            getRuleX(5, data),
+            getRuleX(6, data),
           ],
         },
       ],
@@ -156,6 +250,7 @@ function getContent() {
             },
             {
               text: 'Escolha (ou role) um Arquétipo na tabela e dê um nome para seu personagem. Depois role um dado para cada uma das três colunas na tabela de Trama.',
+              alignment: 'justify',
             },
             {
               text: 'REGRA 2: HISTÓRIA',
@@ -163,6 +258,7 @@ function getContent() {
             },
             {
               text: 'Para começar a sua história, escolha (ou role) um Lugar na tabela de Cenas. Sempre que entrar em uma Cena, role um dado. Se cair 3 ou menos, role um Personagem. Se cair 4 ou mais, role um Evento. Você pode ir para uma nova cena se achar apropriado (e tenha resolvido qualquer conflito aparente).',
+              alignment: 'justify',
             },
             {
               text: 'REGRA 3: DESAFIO',
@@ -170,6 +266,7 @@ function getContent() {
             },
             {
               text: 'Sempre que seu personagem tentar fazer algo que possa dar errado, você tem um Desafio: role um dado. Se tirar 4 ou mais, você conseguiu vencê-lo. Se houver algo nesta situação que lhe dê vantagem nesse Desafio, role 2 dados e escolha o maior. Caso algo lhe dê desvantagem, role 2 dados e escolha o menor.',
+              alignment: 'justify',
             },
             {
               text: 'REGRA 4: DILEMA',
@@ -184,6 +281,7 @@ function getContent() {
             },
             {
               text: 'Sempre que precisar elaborar melhor um Lugar, Personagem ou Evento, role no Banco de Ideias e interprete o resultado de qualquer coluna de acordo com o Cenário.',
+              alignment: 'justify',
             },
             {
               text: 'REGRA X: ESPECIAL',
@@ -213,18 +311,32 @@ function getContent() {
           stack: [
             {
               pageBreak: 'before',
-              text: 'NOME LEGAL DO SEU CENÁRIO',
+              text: data.title,
               style: ['header', 'title'],
               alignment: 'center',
             },
             createSpacer(10),
             createLine(),
             createSpacer(10),
-            {
-              image: 'defaultCover',
-              width: 340,
-              alignment: 'center',
-            },
+            createTable(
+              null,
+              [
+                [
+                  {
+                    image: data.coverImage,
+                    width: 340,
+                    alignment: 'center',
+                  },
+                ],
+              ],
+              {
+                widths: ['*'],
+                d6: false,
+                layout: 'invisible',
+                heights: 380,
+                margin: 0,
+              }
+            ),
             createSpacer(10),
             createLine(),
             createSpacer(10),
@@ -237,7 +349,7 @@ function getContent() {
                     width: 180,
                   },
                   {
-                    text: 'Escrito por \nXXXXXXXXX',
+                    text: `Escrito por \n${data.author}`,
                     alignment: 'right',
                     margin: [0, 0, 20, 0],
                     bold: true,
@@ -256,4 +368,14 @@ function getContent() {
       ],
     },
   ];
+}
+
+function getRuleX(index, data) {
+  const rule_title = data[`rule_x_title_${index}`];
+  const rule_text = data[`rule_x_text_${index}`];
+  if (!rule_title || !rule_text) return null;
+  return {
+    text: [{ text: 'REGRA X - ' + rule_title, bold: true }, ': ' + rule_text],
+    style: 'body',
+  };
 }

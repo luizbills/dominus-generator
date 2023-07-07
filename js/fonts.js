@@ -1,4 +1,4 @@
-function getFonts() {
+function getFonts(data) {
   return {
     AlfaSlabOne: {
       normal: getUrl('/fonts/AlfaSlabOne-Regular.ttf'),

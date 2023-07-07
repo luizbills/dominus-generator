@@ -4,7 +4,7 @@ function getStyles() {
       font: getDefaultFont(),
       fontSize: 9,
       lineHeight: 0.9,
-      alignment: 'justify',
+      alignment: 'left',
     },
     title: {
       fontSize: 26,
