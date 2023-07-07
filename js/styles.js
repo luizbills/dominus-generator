@@ -25,9 +25,15 @@ function getStyles() {
       alignment: 'left',
     },
     tableHeader: {
+      fontSize: 8,
       bold: true,
     },
-    d6cell: {
+    tableCell: {
+      fontSize: 8,
+    },
+    d6Cell: {
+      fontSize: 8,
+      alignment: 'center',
       bold: true,
     },
     body: {

@@ -76,6 +76,12 @@ function slugify(str) {
 }
 
 function readCover(callback, alwaysCallback = null) {
+  if (window.demoMode) {
+    callback(null);
+    alwaysCallback();
+    return;
+  }
+
   const input = $('#cover');
   const fr = new FileReader();
   const file = input.files[0];
@@ -84,9 +90,9 @@ function readCover(callback, alwaysCallback = null) {
     if (!file.type.includes('image')) {
       alert('Arquivo inválido para imagem da capa.');
     } else {
-      callback(evt.target.result, evt);
+      callback(evt.target.result);
     }
-    alwaysCallback && alwaysCallback(evt);
+    alwaysCallback && alwaysCallback();
   });
 
   if (file) {
@@ -105,6 +111,14 @@ function getData() {
     data[field.id] = field.value || '';
   }
 
+  return data;
+}
+
+function formatData(data) {
+  for (const key of Object.keys(data)) {
+    if (!data[key] || 'string' !== typeof data[key]) continue;
+    data[key] = data[key].replace(/\\n/g, '\n');
+  }
   return data;
 }
 

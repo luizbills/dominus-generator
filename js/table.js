@@ -62,6 +62,10 @@ function createTable(headers, lines, opts = {}) {
     object.table.widths = Array(lines[0].length).fill('*');
   }
 
+  if (object.table.widths.length > 1) {
+    object.table.widths[0] = 'auto';
+  }
+
   opts.d6 = opts.d6 == null ? true : opts.d6;
 
   if (opts.d6) {
@@ -88,10 +92,24 @@ function createTable(headers, lines, opts = {}) {
 
   let i = 1;
   for (const line of lines) {
+    const lineContent = [];
     if (opts.d6) {
-      line.unshift({ text: i++, alignment: 'center', style: 'd6cell' });
+      lineContent.push({
+        text: i++,
+        style: 'd6Cell',
+      });
     }
-    object.table.body.push(line);
+    for (const value of line) {
+      lineContent.push(
+        typeof value !== 'string'
+          ? value
+          : {
+              text: value,
+              style: 'tableCell',
+            }
+      );
+    }
+    object.table.body.push(lineContent);
   }
 
   return object;

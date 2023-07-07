@@ -3,6 +3,7 @@ const btnDownload = $('#download');
 const URL = window.URL || window.webkitURL;
 const url = new URL(location.href);
 const theme = url.searchParams.get('theme');
+window.demoMode = url.searchParams.get('demo') != null;
 
 if ('dark' === theme || 'light' === theme) {
   document.documentElement.dataset.theme = url.searchParams.get('mode');
@@ -12,13 +13,13 @@ if (isMobile()) {
   btnPreview.style.display = 'none';
 } else {
   btnPreview.addEventListener('click', (ev) => {
-    const data = getData();
+    const data = demoMode ? getDemo() : getData();
     if (!validateData(data)) return;
     btnPreview.setAttribute('aria-busy', 'true');
     btnPreview.disabled = true;
     readCover(
-      (result, evt) => {
-        data.coverImage = result;
+      (result) => {
+        data.coverImage = data.coverImage ? data.coverImage : result;
         createPdf(data).getBlob((blob) => {
           try {
             const urlCreator = URL;
@@ -38,13 +39,13 @@ if (isMobile()) {
 }
 
 btnDownload.addEventListener('click', (ev) => {
-  const data = getData();
+  const data = demoMode ? getDemo() : getData();
   if (!validateData(data)) return;
   btnDownload.setAttribute('aria-busy', 'true');
   btnDownload.disabled = true;
   readCover(
-    (result, evt) => {
-      data.coverImage = result;
+    (result) => {
+      data.coverImage = data.coverImage ? data.coverImage : result;
       const title = data.title ? `dominus-${data.title}` : 'dominus';
       createPdf(data).download(slugify(title));
     },
@@ -56,23 +57,25 @@ btnDownload.addEventListener('click', (ev) => {
 });
 
 // auto save
-let autosaveInterval = 30000; // 30 seconds
-let autosaving = false;
-function autoSave() {
-  if (autosaving) return;
-  autosaving = true;
-  const data = getData();
-  delete data.cover;
-  localStorage.setItem('dominus-pt_BR', JSON.stringify(data));
-  autosaving = false;
+if (!demoMode) {
+  let autosaveInterval = 30000; // 30 seconds
+  let autosaving = false;
+  function autoSave() {
+    if (autosaving) return;
+    autosaving = true;
+    const data = getData();
+    delete data.cover;
+    localStorage.setItem('dominus-pt_BR', JSON.stringify(data));
+    autosaving = false;
+  }
+  setInterval(autoSave, autosaveInterval);
 }
-setInterval(autoSave, autosaveInterval);
 
 // auto restore
 document.addEventListener('DOMContentLoaded', () => {
   const dataJson = localStorage.getItem('dominus-pt_BR');
   try {
-    const data = JSON.parse(dataJson);
+    const data = demoMode ? getDemo() : JSON.parse(dataJson);
     for (const key of Object.keys(data)) {
       if (!key) continue;
       const field = $(`#${key}`);
@@ -94,6 +97,8 @@ function createPdf(data) {
 }
 
 function validateData(data) {
+  if (demoMode) return true;
+
   data.title = data.title?.trim();
   if (!data.title) {
     return !!alert('Seu jogo precisa de um título');
@@ -101,6 +106,7 @@ function validateData(data) {
   if (!data.cover) {
     return !!alert('Seu jogo precisa de uma imagem de capa');
   }
+
   return true;
 }
 
@@ -203,7 +209,7 @@ function getContent(data) {
               style: 'subheader',
             },
             createTable(
-              ['ASSUNTO', 'AÇÃO', 'COISA', 'QUALIDADE'],
+              ['AÇÃO', 'ASSUNTO', 'COISA', 'QUALIDADE'],
               [
                 [
                   data.idea_col_1_1,
@@ -243,7 +249,7 @@ function getContent(data) {
                 ],
               ],
               {
-                widths: ['*', '*', '*', '*'],
+                widths: ['auto', '*', '*', '*'],
               }
             ),
             // createSpacer(0),
@@ -357,7 +363,6 @@ function getContent(data) {
                   {
                     image: data.coverImage,
                     width: 340,
-                    alignment: 'center',
                   },
                 ],
               ],
@@ -365,7 +370,7 @@ function getContent(data) {
                 widths: ['*'],
                 d6: false,
                 layout: 'invisible',
-                heights: 380,
+                heights: 340,
                 margin: 0,
               }
             ),
