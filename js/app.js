@@ -85,8 +85,9 @@ function getContent(data) {
             // second column consists of paragraphs
             { text: data.title, style: 'header' },
             {
-              text: `Este jogo foi escrito por "${data.author}" e foi publicado sob a Licença CC BY 4.0 (Creative Commons Atribuição 4.0 Internacional).`,
+              text: `Escrito por "${data.author}".`,
               style: 'body',
+              fontSize: 10,
             },
             {
               text: 'REGRAS',
