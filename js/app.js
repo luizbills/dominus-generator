@@ -302,7 +302,7 @@ function getContent(data) {
               link: 'https://creativecommons.org/licenses/by/4.0/deed.pt_BR',
             },
             {
-              text: 'As regras do Dominus foram criadas pelo coletivo “Iniciativa Dominus” \ne foram distruibuidas sob uma Licença Creative Commons Atribuição 4.0 Internacional',
+              text: 'As regras do Dominus foram criadas pelo coletivo “Iniciativa Dominus” \ne são licenciadas sob uma Licença Creative Commons Atribuição 4.0 Internacional.',
               alignment: 'center',
               fontSize: 8,
             },

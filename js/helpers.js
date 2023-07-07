@@ -21,7 +21,8 @@ function getDocumentDefination(data) {
 }
 
 function getUrl(path) {
-  return location.origin + path;
+  const l = location;
+  return l.origin + l.pathname + path;
 }
 
 function createSpacer(size) {
@@ -41,10 +42,9 @@ function createLine() {
 
 function getImages(data) {
   return {
-    ccby: getUrl('/images/ccby.png'),
-    defaultCover: getUrl('/images/cover.jpg'),
-    powererBy: getUrl('/images/powered-by.png'),
-    line: getUrl('/images/line.png'),
+    ccby: getUrl('images/ccby.png'),
+    powererBy: getUrl('images/powered-by.png'),
+    line: getUrl('images/line.png'),
   };
 }
 
