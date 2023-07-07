@@ -28,8 +28,8 @@ function getDocumentDefination(data) {
 }
 
 function getUrl(path) {
-  const l = location;
-  return l.origin + l.pathname + path;
+  const base = location.origin + location.pathname.replace('index.html', '');
+  return base + path;
 }
 
 function createSpacer(size) {
