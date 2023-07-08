@@ -128,7 +128,7 @@ function hasData() {
 }
 
 function cleanString(str) {
-  return str.replace(/[^0-9A-Z\s]/g, '').trim();
+  return str.replace(/[^0-9A-Z\s]/gi, '').trim();
 }
 
 function isMobile() {
