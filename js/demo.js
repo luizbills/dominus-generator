@@ -3,6 +3,7 @@ function getDemo() {
     _demo: true,
     title: 'UM MINUTO PARA \\nO FIM DO MUNDO...',
     author: 'Rodrigo Lopes',
+    more: '',
     description:
       'O mundo foi para o ralo, a chamada "civilização ocidental" caiu. E você está no meio disso tudo. No que você achou que seria um dia de comum, você tem que tentar sobreviver ao apocalipse. Seja ele qual for.',
 
@@ -61,7 +62,7 @@ function getDemo() {
     event_5: 'Prédios desabando',
     event_6: 'O fim',
 
-    idea_col_1_name: 'Ação',
+    idea_col_1_name: '',
     idea_col_1_1: 'Perseguir',
     idea_col_1_2: 'Investigar',
     idea_col_1_3: 'Agarrar',
@@ -69,7 +70,7 @@ function getDemo() {
     idea_col_1_5: 'Enganar',
     idea_col_1_6: 'Fugir',
 
-    idea_col_2_name: 'Assunto',
+    idea_col_2_name: '',
     idea_col_2_1: 'Segredo de Estado',
     idea_col_2_2: 'Doença Mortal',
     idea_col_2_3: 'De outro mundo',
@@ -77,7 +78,7 @@ function getDemo() {
     idea_col_2_5: 'Manifestação',
     idea_col_2_6: '"Bem vindo ao..."',
 
-    idea_col_3_name: 'Coisa',
+    idea_col_3_name: '',
     idea_col_3_1: 'Meio de transporte',
     idea_col_3_2: 'Alimentos',
     idea_col_3_3: 'Munição',
@@ -85,7 +86,7 @@ function getDemo() {
     idea_col_3_5: 'Jogos de tabuleiro',
     idea_col_3_6: 'Lanternas e pilhas',
 
-    idea_col_4_name: 'Qualidade',
+    idea_col_4_name: '',
     idea_col_4_1: 'Assustador',
     idea_col_4_2: 'Gigantesco',
     idea_col_4_3: 'Decrépito',

@@ -79,7 +79,7 @@ function readCoverImage(callback, alwaysCallback = null) {
   const input = $('#cover');
   const file = input.files ? input.files[0] : null;
 
-  if (window.demoMode && null == file) {
+  if (window.demoCoverImage && null == file) {
     callback(window.demoCoverImage);
     alwaysCallback && alwaysCallback();
     return;
@@ -122,6 +122,11 @@ function formatData(data) {
   return data;
 }
 
+function hasData() {
+  const data = getData();
+  return Object.values(data).join('').trim() !== '';
+}
+
 function cleanString(str) {
   return str.replace(/[^0-9A-Z\s]/g, '').trim();
 }
@@ -130,4 +135,13 @@ function isMobile() {
   return (
     'ontouchstart' in document.documentElement && window.innerWidth <= 1100
   );
+}
+
+function fillFields(data) {
+  for (const key of Object.keys(data)) {
+    if (!key || 'string' !== typeof data[key]) continue;
+    const field = $(`#${key}`);
+    if (!field) continue;
+    field.value = data[key];
+  }
 }

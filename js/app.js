@@ -1,14 +1,15 @@
 const btnPreview = $('#preview');
 const btnDownload = $('#download');
+const btnDemo = $('#load-demo');
 const URL = window.URL || window.webkitURL;
 const url = new URL(location.href);
 const theme = url.searchParams.get('theme');
-window.demoMode = url.searchParams.get('demo') != null;
 
 if ('dark' === theme || 'light' === theme) {
   document.documentElement.dataset.theme = theme;
 }
 
+// preview (avaliable only in desktop)
 if (isMobile()) {
   btnPreview.style.display = 'none';
 } else {
@@ -38,6 +39,7 @@ if (isMobile()) {
   });
 }
 
+// download
 btnDownload.addEventListener('click', (ev) => {
   const data = getData();
   if (!validateData(data)) return;
@@ -56,39 +58,42 @@ btnDownload.addEventListener('click', (ev) => {
   );
 });
 
-// auto save
-if (!demoMode) {
-  let autosaveInterval = 30000; // 30 seconds
-  let autosaving = false;
-  function autoSave() {
-    if (autosaving) return;
-    autosaving = true;
-    const data = getData(false);
-    delete data.cover;
-    localStorage.setItem('dominus-pt_BR', JSON.stringify(data));
-    autosaving = false;
+// load demo
+btnDemo.addEventListener('click', (ev) => {
+  if (hasData()) {
+    const message =
+      'Você já preencheu alguns campos, tem certeza que quer continuar?';
+    if (!confirm(message)) return;
   }
-  setInterval(autoSave, autosaveInterval);
-}
+  const demo = getDemo();
+  window.demoCoverImage = demo.coverImage;
+  fillFields(demo);
+});
 
 // auto restore
 document.addEventListener('DOMContentLoaded', () => {
   const dataJson = localStorage.getItem('dominus-pt_BR');
   try {
-    const data = demoMode ? getDemo() : JSON.parse(dataJson || '{}');
-    if (demoMode) {
-      window.demoCoverImage = data.coverImage;
-    }
-    for (const key of Object.keys(data)) {
-      if (!key) continue;
-      const field = $(`#${key}`);
-      if (!field) continue;
-      field.value = data[key];
-    }
+    console.log('restoring fields');
+    const data = JSON.parse(dataJson || '{}');
+    fillFields(data);
   } catch (e) {
     console.error(e.message);
   }
 });
+
+// auto save
+let autosaveInterval = isMobile() ? 30000 : 10000;
+let autosaving = false;
+function autoSave() {
+  if (autosaving) return;
+  autosaving = true;
+  const data = getData(false);
+  delete data.cover;
+  localStorage.setItem('dominus-pt_BR', JSON.stringify(data));
+  autosaving = false;
+}
+setInterval(autoSave, autosaveInterval);
 
 function createPdf(data) {
   const pdf = pdfMake.createPdf(
@@ -100,13 +105,11 @@ function createPdf(data) {
 }
 
 function validateData(data) {
-  if (demoMode) return true;
-
   data.title = data.title?.trim();
   if (!data.title) {
     return !!alert('Seu jogo precisa de um título');
   }
-  if (!data.cover) {
+  if (!data.cover && !window.demoCoverImage) {
     return !!alert('Seu jogo precisa de uma imagem de capa');
   }
 
@@ -125,7 +128,9 @@ function getContent(data) {
             // second column consists of paragraphs
             { text: data.title, style: 'header' },
             {
-              text: `Escrito por "${data.author}".`,
+              text:
+                `Escrito por "${data.author}".` +
+                (data.more ? ' ' + data.more : ''),
               style: 'body',
               fontSize: 10,
             },
@@ -213,10 +218,10 @@ function getContent(data) {
             },
             createTable(
               [
-                data.idea_col_1_name.toUpperCase(),
-                data.idea_col_2_name.toUpperCase(),
-                data.idea_col_3_name.toUpperCase(),
-                data.idea_col_4_name.toUpperCase(),
+                (data.idea_col_1_name || 'Ação').toUpperCase(),
+                (data.idea_col_2_name || 'Assunto').toUpperCase(),
+                (data.idea_col_3_name || 'Coisa').toUpperCase(),
+                (data.idea_col_4_name || 'Qualidade').toUpperCase(),
               ],
               [
                 [

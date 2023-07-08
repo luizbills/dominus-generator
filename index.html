@@ -16,27 +16,37 @@
         campos abaixo com as informações do seu cenário e no final gere um PDF
         já todo formatado.
       </p>
+
+      <p><em>Se quiser ver um jogo de demonstração, <a href="#" id="load-demo">clique aqui</a> para preencher automaticamente todos os campos. Depois, basta apenas você clicar no botão para ver o resultado.</em></p>
     </header>
 
     <main class="container" id="fields">
       <details open>
         <summary>Informações Básicas</summary>
         <label>
-          Título:
+          Título do cenário:
           <input
             id="title"
             type="text"
             placeholder="Nome legal do seu cenário"
           />
         </label>
+
         <label>
           Nome do autor:
           <input
             id="author"
             type="text"
-            placeholder="Nome de quem fez o jogo"
+            placeholder="Quem fez o jogo?"
           />
         </label>
+
+        <label>
+          Complemento:
+          <input id="more" type="text" placeholder="Opcional">
+          <small>Um texto para ser exibido após o nome do autor. Dica: você pode usar este campo para informar que o seu cenário tem uma licença diferente da do Dominus.</small>
+        </label>
+
         <label>
           Imagem da capa:
           <input
@@ -44,21 +54,8 @@
             type="file"
             accept="image/png, image/jpg, image/jpeg"
           />
-          <small>É recomendado uma imagem com 500 de largura e altura.</small>
+          <small>É recomendado uma imagem quadrada (com mesma largura e altura).</small>
         </label>
-
-        <!-- <label>
-          Licença:
-          <select id="license" name="" id="">
-            <option value="">Sem licença</option>
-            <option value="">CC BY 4.0</option>
-            <option value="">CC BY SA 4.0</option>
-            <option value="">CC BY NC 4.0</option>
-            <option value="">CC BY SA NC 4.0</option>
-            <option value="">Domínio Público</option>
-          </select>
-          <small>Saiba mais sobre a <a href="#">licença CC BY</a>.</small>
-        </label> -->
 
         <label>
           Ambientação:
@@ -164,7 +161,7 @@
       <details>
         <summary>Banco de Ideias</summary>
 
-        <label> 1ª Coluna: <input type="text" value="Ação" id="idea_col_1_name" /> </label>
+        <label> 1ª Coluna: <input type="text" class="idea_col_name" placeholder="Ação" id="idea_col_1_name" /> </label>
         <div class="grid">
           <input id="idea_col_1_1" type="text" placeholder="1" />
           <input id="idea_col_1_2" type="text" placeholder="2" />
@@ -176,7 +173,7 @@
           <input id="idea_col_1_6" type="text" placeholder="6" />
         </div>
 
-        <label> 2ª Coluna: <input type="text" value="Assunto" id="idea_col_2_name" /> </label>
+        <label> 2ª Coluna: <input type="text" class="idea_col_name" placeholder="Assunto" id="idea_col_2_name" /> </label>
         <div class="grid">
           <input id="idea_col_2_1" type="text" placeholder="1" />
           <input id="idea_col_2_2" type="text" placeholder="2" />
@@ -188,7 +185,7 @@
           <input id="idea_col_2_6" type="text" placeholder="6" />
         </div>
 
-        <label> 3ª Coluna: <input type="text" value="Coisa" id="idea_col_3_name" /> </label>
+        <label> 3ª Coluna: <input type="text" class="idea_col_name" placeholder="Coisa" id="idea_col_3_name" /> </label>
         <div class="grid">
           <input id="idea_col_3_1" type="text" placeholder="1" />
           <input id="idea_col_3_2" type="text" placeholder="2" />
@@ -200,7 +197,7 @@
           <input id="idea_col_3_6" type="text" placeholder="6" />
         </div>
 
-        <label> 4ª Coluna: <input type="text" value="Qualidade" id="idea_col_4_name" /> </label>
+        <label> 4ª Coluna: <input class="idea_col_name" type="text" placeholder="Qualidade" id="idea_col_4_name" /> </label>
         <div class="grid">
           <input id="idea_col_4_1" type="text" placeholder="1" />
           <input id="idea_col_4_2" type="text" placeholder="2" />
