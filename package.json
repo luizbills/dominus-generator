@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Gerador de jogos baseados no sistema Dominus",
   "scripts": {
-    "zip": "rm -f build.zip && zip -r build.zip . -x .\\* -x package.json"
+    "zip": "rm -f build.zip && zip -r build.zip . -x .\\* -x package.json",
+    "serve": "npx live-server"
   },
   "repository": {
     "type": "git",
