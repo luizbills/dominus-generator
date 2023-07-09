@@ -94,6 +94,7 @@ function autoSave() {
   autosaving = false;
 }
 setInterval(autoSave, autosaveInterval);
+window.addEventListener('beforeunload', autoSave);
 
 function createPdf(data) {
   const pdf = pdfMake.createPdf(
