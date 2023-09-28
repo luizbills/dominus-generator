@@ -369,7 +369,7 @@ function getContent(data) {
             },
             createSpacer(10),
             createLine(),
-            createSpacer(10),
+            createSpacer(15),
             createTable(
               null,
               [
@@ -377,6 +377,7 @@ function getContent(data) {
                   {
                     image: data.coverImage,
                     width: 340,
+                    height: 340,
                   },
                 ],
               ],
