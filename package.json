@@ -1,10 +1,6 @@
 {
-  "name": "dominus-generator",
-  "version": "1.0.0",
-  "description": "Gerador de jogos baseados no sistema Dominus",
   "scripts": {
-    "zip": "rm -f build.zip && zip -r build.zip . -x .\\* -x package.json",
-    "serve": "npx live-server"
+    "serve": "npx live-server public"
   },
   "author": "Luiz Bills",
   "license": "MIT"
