@@ -40,8 +40,7 @@ function getDemo() {
       'Dono(a) de Casa: Você só saiu de casa quinze minutos, pra ir comprar café. E agora isso.',
     archtype_6:
       'Polícial: É seu último dia de serviço antes de aposentar. Você só quer bater seu ponto.',
-    archtypes_more:
-      'TODO: Apaga isso Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe est ipsa qui hic quis voluptatibus, nisi excepturi? Eum, quam laborum!',
+    archtypes_more: '',
 
     place_1: 'Bar caído',
     place_2: 'Shopping Center',
