@@ -27,7 +27,7 @@ function getDocumentDefination(data) {
       author: cleanString(data.author),
       subject: 'Jogo de RPG baseado no Dominus',
       keywords: 'ttrpg, solo, gmless, dominus',
-      creator: 'DOMINUSGEN',
+      creator: 'DOMINUSGEN <https://bills.itch.io/dominusgen>',
     },
   };
 }
