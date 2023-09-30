@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "serve": "npx live-server public"
+    "dev": "npx live-server public",
+    "browse": "open https://bills.itch.io/dominusgen/ &"
   },
   "author": "Luiz Bills",
   "license": "MIT"
