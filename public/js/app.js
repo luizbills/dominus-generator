@@ -3,10 +3,13 @@ const btnDownload = $('#download');
 const btnDemo = $('#load-demo');
 const URL = window.URL || window.webkitURL;
 const url = new URL(location.href);
-const theme = url.searchParams.get('theme');
+const params = {
+  theme: url.searchParams.get('theme'),
+  demo: url.searchParams.has('demo'),
+};
 
-if ('dark' === theme || 'light' === theme) {
-  document.documentElement.dataset.theme = theme;
+if ('dark' === params.theme || 'light' === params.theme) {
+  document.documentElement.dataset.theme = params.theme;
 }
 
 // preview (avaliable only in desktop)
@@ -16,26 +19,30 @@ if (isMobile()) {
   btnPreview.addEventListener('click', (ev) => {
     const data = getData();
     if (!validateData(data)) return;
+
     btnPreview.setAttribute('aria-busy', 'true');
     btnPreview.disabled = true;
-    readCoverImage(
-      (result) => {
-        data.coverImage = result;
-        createPdf(data).getBlob((blob) => {
-          try {
-            const urlCreator = URL;
-            const pdfUrl = urlCreator.createObjectURL(blob);
-            window.open(pdfUrl, 'dominusgenPreview');
-          } catch (e) {
-            reject(e);
-          }
-        });
-      },
-      () => {
+
+    readCoverImage((error, result) => {
+      if (error) {
         btnPreview.removeAttribute('aria-busy');
         btnPreview.disabled = false;
+        return;
       }
-    );
+      data.coverImage = result;
+      createPdf(data).getBlob((blob) => {
+        try {
+          const urlCreator = URL;
+          const pdfUrl = urlCreator.createObjectURL(blob);
+          window.open(pdfUrl, 'dominusgenPreview');
+        } catch (e) {
+          reject(e);
+        }
+
+        btnPreview.removeAttribute('aria-busy');
+        btnPreview.disabled = false;
+      });
+    });
   });
 }
 
@@ -43,19 +50,30 @@ if (isMobile()) {
 btnDownload.addEventListener('click', (ev) => {
   const data = getData();
   if (!validateData(data)) return;
+
   btnDownload.setAttribute('aria-busy', 'true');
   btnDownload.disabled = true;
-  readCoverImage(
-    (result) => {
+
+  readCoverImage((error, result) => {
+    if (error) {
+      btnPreview.removeAttribute('aria-busy');
+      btnPreview.disabled = false;
+      return;
+    }
+
+    try {
       data.coverImage = result;
       const title = data.title ? `dominus-${data.title}` : 'dominus';
-      createPdf(data).download(slugify(title));
-    },
-    () => {
+      createPdf(data).download(slugify(title), () => {
+        btnDownload.removeAttribute('aria-busy');
+        btnDownload.disabled = false;
+      });
+    } catch (e) {
+      alert(e.message);
       btnDownload.removeAttribute('aria-busy');
       btnDownload.disabled = false;
     }
-  );
+  });
 });
 
 // load demo
@@ -69,6 +87,11 @@ btnDemo.addEventListener('click', (ev) => {
   window.demoCoverImage = demo.coverImage;
   fillFields(demo);
 });
+
+if (params.demo) {
+  btnDemo.click();
+  btnPreview.click();
+}
 
 // auto restore
 document.addEventListener('DOMContentLoaded', () => {
@@ -133,7 +156,7 @@ function getContent(data) {
                 `Escrito por "${data.author}".` +
                 (data.more ? ' ' + data.more : ''),
               style: 'body',
-              fontSize: 10,
+              fontSize: 9,
             },
             {
               text: 'REGRAS',
@@ -172,6 +195,7 @@ function getContent(data) {
                 [data.plot_6, data.mission_6, data.ifnot_6],
               ]
             ),
+            // createSpacer(2),
             {
               text: 'ARQUÉTIPOS',
               style: 'subheader',
@@ -192,8 +216,15 @@ function getContent(data) {
               ],
               {
                 headerRows: 0,
+                margins: [0, 0, 0, 0],
               }
             ),
+            data.archtypes_more
+              ? {
+                  style: 'after_tables',
+                  text: data.archtypes_more,
+                }
+              : null,
           ],
         },
         {
@@ -201,6 +232,7 @@ function getContent(data) {
             {
               text: 'CENAS',
               style: 'subheader',
+              margins: 0,
             },
             createTable(
               ['LUGARES', 'PERSONAGENS (1 a 3)', 'EVENTOS (4 a 6)'],
@@ -213,6 +245,7 @@ function getContent(data) {
                 [data.place_6, data.char_6, data.event_6],
               ]
             ),
+            // createSpacer(2),
             {
               text: 'BANCO DE IDEIAS',
               style: 'subheader',
@@ -266,6 +299,7 @@ function getContent(data) {
                 widths: ['auto', '*', '*', '*'],
               }
             ),
+            createSpacer(3),
             // createSpacer(0),
             getRuleX(1, data),
             getRuleX(2, data),
@@ -294,8 +328,9 @@ function getContent(data) {
               text: 'Estas são as regras do sistema Dominus',
               style: 'body',
               alignment: 'center',
+              fontSize: 10,
             },
-            createSpacer(18),
+            createSpacer(15),
             {
               text: 'REGRA 1: PREPARAÇÃO',
               style: 'subheader',
@@ -303,6 +338,7 @@ function getContent(data) {
             {
               text: 'Escolha (ou role) um Arquétipo na tabela e dê um nome para seu personagem. Depois role um dado para cada uma das três colunas na tabela de Trama.',
               alignment: 'justify',
+              style: 'dominus_rules',
             },
             {
               text: 'REGRA 2: HISTÓRIA',
@@ -311,6 +347,7 @@ function getContent(data) {
             {
               text: 'Para começar a sua história, escolha (ou role) um Lugar na tabela de Cenas. Sempre que entrar em uma Cena, role um dado. Se cair 3 ou menos, role um Personagem. Se cair 4 ou mais, role um Evento. Você pode ir para uma nova cena se achar apropriado (e tenha resolvido qualquer conflito aparente).',
               alignment: 'justify',
+              style: 'dominus_rules',
             },
             {
               text: 'REGRA 3: DESAFIO',
@@ -319,6 +356,7 @@ function getContent(data) {
             {
               text: 'Sempre que seu personagem tentar fazer algo que possa dar errado, você tem um Desafio: role um dado. Se tirar 4 ou mais, você conseguiu vencê-lo. Se houver algo nesta situação que lhe dê vantagem nesse Desafio, role 2 dados e escolha o maior. Caso algo lhe dê desvantagem, role 2 dados e escolha o menor.',
               alignment: 'justify',
+              style: 'dominus_rules',
             },
             {
               text: 'REGRA 4: DILEMA',
@@ -326,6 +364,7 @@ function getContent(data) {
             },
             {
               text: 'Sempre que tiver uma dúvida cuja resposta não seja óbvia, determine duas opções possíveis (sim ou não, esquerda ou direita, acontece A ou acontece B etc) e role um dado. Se cair 3 ou menos é a primeira opção, e se cair 4 ou mais é a segunda opção.',
+              style: 'dominus_rules',
             },
             {
               text: 'REGRA 5: BANCO DE IDEIAS',
@@ -334,6 +373,7 @@ function getContent(data) {
             {
               text: 'Sempre que precisar elaborar melhor um Lugar, Personagem ou Evento, role no Banco de Ideias e interprete o resultado de qualquer coluna de acordo com o Cenário.',
               alignment: 'justify',
+              style: 'dominus_rules',
             },
             {
               text: 'REGRA X: ESPECIAL',
@@ -341,21 +381,23 @@ function getContent(data) {
             },
             {
               text: 'Cada cenário pode ter mais regras únicas e especiais.',
+              style: 'dominus_rules',
             },
-            createSpacer(60),
+            createSpacer(40),
             createLine(),
             createSpacer(12),
             {
               image: 'ccby',
               width: 65,
               alignment: 'center',
-              margin: [0, 0, 0, 6],
+              margin: [0, 0, 0, 4],
               link: 'https://creativecommons.org/licenses/by/4.0/deed.pt_BR',
             },
             {
               text: 'As regras do Dominus foram criadas pelo coletivo “Iniciativa Dominus” \ne são licenciadas sob uma Licença Creative Commons Atribuição 4.0 Internacional.',
               alignment: 'center',
-              fontSize: 8,
+              fontSize: 9,
+              color: '#444',
             },
           ],
         },
@@ -376,8 +418,10 @@ function getContent(data) {
                 [
                   {
                     image: data.coverImage,
-                    width: 340,
-                    height: 340,
+                    fit: [340, 340],
+                    // width: 340,
+                    // height: 340,
+                    alignment: 'center',
                   },
                 ],
               ],

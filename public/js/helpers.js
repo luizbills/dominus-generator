@@ -47,7 +47,7 @@ function createSpacer(size) {
 function createLine() {
   return {
     image: 'line',
-    width: 350,
+    width: 380,
     opacity: 0.25,
   };
 }
@@ -75,30 +75,29 @@ function slugify(str) {
     .replace(/-+/g, '-'); // remove consecutive hyphens
 }
 
-function readCoverImage(callback, alwaysCallback = null) {
+function readCoverImage(callback) {
   const input = $('#cover');
   const file = input.files ? input.files[0] : null;
 
   if (window.demoCoverImage && null == file) {
-    callback(window.demoCoverImage);
-    alwaysCallback && alwaysCallback();
+    callback(false, window.demoCoverImage);
     return;
   }
 
   const fr = new FileReader();
   fr.addEventListener('load', function (evt) {
+    let error = false;
     if (!file.type.includes('image')) {
-      alert('Arquivo inválido para imagem da capa.');
-    } else {
-      callback(evt.target.result);
+      error = 'Arquivo inválido para imagem da capa.';
     }
-    alwaysCallback && alwaysCallback();
+    callback(error, !error ? evt.target.result : null);
   });
 
   if (file) {
     fr.readAsDataURL(file);
   } else {
-    console.error('Please select a cover image');
+    console.error('Escolha uma imagem para a capa.');
+    callback(true, null);
   }
 }
 
