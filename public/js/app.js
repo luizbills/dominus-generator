@@ -86,6 +86,7 @@ btnDemo.addEventListener('click', (ev) => {
   const demo = getDemo();
   window.demoCoverImage = demo.coverImage;
   fillFields(demo);
+  $$('#fields details')[0].open = true;
 });
 
 if (params.demo) {
