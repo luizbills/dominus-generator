@@ -37,7 +37,13 @@ function getStyles() {
       bold: true,
     },
     body: {
+      fontSize: 9,
       margin: [0, 0, 0, 3],
+    },
+    rules_x: {
+      fontSize: 8,
+      margin: [0, 0, 0, 3],
+      alignment: 'justify',
     },
   };
 }

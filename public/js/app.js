@@ -118,7 +118,7 @@ function validateData(data) {
 }
 
 function getContent(data) {
-  const columnGap = 40;
+  const columnGap = 30;
   return [
     // first page
     {
@@ -428,6 +428,6 @@ function getRuleX(index, data) {
   if (!rule_title || !rule_text) return null;
   return {
     text: [{ text: 'REGRA X - ' + rule_title, bold: true }, ': ' + rule_text],
-    style: 'body',
+    style: 'rules_x',
   };
 }
