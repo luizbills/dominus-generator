@@ -412,7 +412,7 @@ function getContent(data) {
             },
             createSpacer(10),
             createLine(),
-            createSpacer(15),
+            createSpacer(20),
             createTable(
               null,
               [
@@ -430,11 +430,10 @@ function getContent(data) {
                 widths: ['*'],
                 d6: false,
                 layout: 'invisible',
-                heights: 340,
+                heights: 380,
                 margin: 0,
               }
             ),
-            createSpacer(10),
             createLine(),
             createSpacer(10),
             createTable(
