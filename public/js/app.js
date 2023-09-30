@@ -419,7 +419,7 @@ function getContent(data) {
                 [
                   {
                     image: data.coverImage,
-                    fit: [340, 340],
+                    fit: [320, 320],
                     // width: 340,
                     // height: 340,
                     alignment: 'center',
@@ -430,7 +430,7 @@ function getContent(data) {
                 widths: ['*'],
                 d6: false,
                 layout: 'invisible',
-                heights: 380,
+                heights: 350,
                 margin: 0,
               }
             ),
