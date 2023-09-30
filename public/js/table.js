@@ -53,7 +53,7 @@ function createTable(headers, lines, opts = {}) {
       heights: opts.heights || null,
       body: [],
     },
-    margin: opts.margin || [0, 0, 0, 6],
+    margin: opts.margin || [0, 1, 0, 2], // [left, top, right, bottom]
   };
 
   if (opts.widths) {

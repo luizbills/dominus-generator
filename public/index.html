@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DOMINUSGEN</title>
-    <link rel="stylesheet" href="css/pico.min.css" />
-    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/pico.min.css?v=1.5.10" />
+    <link rel="stylesheet" href="css/app.css?v=1.1.0" />
   </head>
   <body>
     <header class="container">
@@ -20,15 +20,15 @@
       <p>
         <em
           >Se quiser ver um jogo de demonstração,
-          <a href="#" id="load-demo">clique aqui</a> para preencher
-          automaticamente todos os campos. Depois, basta apenas você clicar no
-          botão para ver o resultado.</em
+          <a href="#general-fields" id="load-demo">clique aqui</a> para
+          preencher automaticamente todos os campos. Depois, basta apenas você
+          clicar no botão para ver o resultado.</em
         >
       </p>
     </header>
 
     <main class="container" id="fields">
-      <details open>
+      <details id="general-fields">
         <summary>Informações Básicas</summary>
         <label>
           Título do cenário:
@@ -126,6 +126,18 @@
         <input id="archtype_4" type="text" placeholder="4" />
         <input id="archtype_5" type="text" placeholder="5" />
         <input id="archtype_6" type="text" placeholder="6" />
+
+        <label>
+          Complemento:
+          <textarea
+            id="archtypes_more"
+            rows="2"
+            placeholder="Opcional"
+          ></textarea>
+          <small
+            >Um texto que será exibido depois da tabela de Arquétipos.</small
+          >
+        </label>
       </details>
 
       <details>
@@ -361,19 +373,18 @@
           href="https://github.com/luizbills/dominus-generator/"
           target="_blank"
           rel="nofollow noopener"
+          >código aberto</a
         >
-          código aberto
-        </a>
         criado por Luiz Bills
       </small>
     </footer>
 
     <script src="js/pdfmake.min.js?v=0.2.7"></script>
-    <script src="js/helpers.js?v=1.0.2"></script>
-    <script src="js/demo.js?v=1.0.2"></script>
-    <script src="js/fonts.js?v=1.0.2"></script>
-    <script src="js/styles.js?v=1.0.2"></script>
-    <script src="js/table.js?v=1.0.2"></script>
-    <script src="js/app.js?v=1.0.2"></script>
+    <script src="js/helpers.js?v=1.1.0"></script>
+    <script src="js/demo.js?v=1.1.0"></script>
+    <script src="js/fonts.js?v=1.1.0"></script>
+    <script src="js/styles.js?v=1.1.0"></script>
+    <script src="js/table.js?v=1.1.0"></script>
+    <script src="js/app.js?v=1.1.0"></script>
   </body>
 </html>
