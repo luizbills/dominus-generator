@@ -144,3 +144,7 @@ function fillFields(data) {
     field.value = data[key];
   }
 }
+
+function trim(str) {
+  return 'string' === typeof str ? str.trim() : '';
+}

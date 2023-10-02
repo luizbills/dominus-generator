@@ -471,8 +471,8 @@ function getContent(data) {
 }
 
 function getRuleX(index, data) {
-  const rule_title = data[`rule_x_title_${index}`];
-  const rule_text = data[`rule_x_text_${index}`];
+  const rule_title = trim(data[`rule_x_title_${index}`]);
+  const rule_text = trim(data[`rule_x_text_${index}`]);
   if (!rule_title || !rule_text) return null;
   return {
     text: [{ text: 'REGRA X - ' + rule_title, bold: true }, ': ' + rule_text],
