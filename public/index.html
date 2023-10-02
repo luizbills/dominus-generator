@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DOMINUSGEN</title>
     <link rel="stylesheet" href="css/pico.min.css?v=1.5.10" />
-    <link rel="stylesheet" href="css/app.css?v=1.1.1" />
+    <link rel="stylesheet" href="css/app.css?v=1.2.0" />
   </head>
   <body>
     <header class="container">
@@ -80,52 +80,76 @@
       <details>
         <summary>Trama</summary>
 
-        <p>Algo aconteceu...</p>
+        <label>
+          1ª Coluna:
+          <input
+            type="text"
+            class="col-name"
+            placeholder="Algo aconteceu..."
+            id="plot_header"
+          />
+        </label>
         <div class="grid">
-          <input id="plot_1" type="text" placeholder="1" />
-          <input id="plot_2" type="text" placeholder="2" />
-          <input id="plot_3" type="text" placeholder="3" />
+          <input id="plot_1" type="text" placeholder="1ª Linha" />
+          <input id="plot_2" type="text" placeholder="2ª Linha" />
+          <input id="plot_3" type="text" placeholder="3ª Linha" />
         </div>
         <div class="grid">
-          <input id="plot_4" type="text" placeholder="4" />
-          <input id="plot_5" type="text" placeholder="5" />
-          <input id="plot_6" type="text" placeholder="6" />
-        </div>
-
-        <p>Você precisa...</p>
-        <div class="grid">
-          <input id="mission_1" type="text" placeholder="1" />
-          <input id="mission_2" type="text" placeholder="2" />
-          <input id="mission_3" type="text" placeholder="3" />
-        </div>
-        <div class="grid">
-          <input id="mission_4" type="text" placeholder="4" />
-          <input id="mission_5" type="text" placeholder="5" />
-          <input id="mission_6" type="text" placeholder="6" />
+          <input id="plot_4" type="text" placeholder="4ª Linha" />
+          <input id="plot_5" type="text" placeholder="5ª Linha" />
+          <input id="plot_6" type="text" placeholder="6ª Linha" />
         </div>
 
-        <p>Senão...</p>
+        <label>
+          2ª Coluna:
+          <input
+            type="text"
+            class="col-name"
+            placeholder="Você precisa..."
+            id="mission_header"
+          />
+        </label>
         <div class="grid">
-          <input id="ifnot_1" type="text" placeholder="1" />
-          <input id="ifnot_2" type="text" placeholder="2" />
-          <input id="ifnot_3" type="text" placeholder="3" />
+          <input id="mission_1" type="text" placeholder="1ª Linha" />
+          <input id="mission_2" type="text" placeholder="2ª Linha" />
+          <input id="mission_3" type="text" placeholder="3ª Linha" />
         </div>
         <div class="grid">
-          <input id="ifnot_4" type="text" placeholder="4" />
-          <input id="ifnot_5" type="text" placeholder="5" />
-          <input id="ifnot_6" type="text" placeholder="6" />
+          <input id="mission_4" type="text" placeholder="4ª Linha" />
+          <input id="mission_5" type="text" placeholder="5ª Linha" />
+          <input id="mission_6" type="text" placeholder="6ª Linha" />
+        </div>
+
+        <label>
+          3ª Coluna:
+          <input
+            type="text"
+            class="col-name"
+            placeholder="Senão..."
+            id="ifnot_header"
+          />
+        </label>
+        <div class="grid">
+          <input id="ifnot_1" type="text" placeholder="1ª Linha" />
+          <input id="ifnot_2" type="text" placeholder="2ª Linha" />
+          <input id="ifnot_3" type="text" placeholder="3ª Linha" />
+        </div>
+        <div class="grid">
+          <input id="ifnot_4" type="text" placeholder="4ª Linha" />
+          <input id="ifnot_5" type="text" placeholder="5ª Linha" />
+          <input id="ifnot_6" type="text" placeholder="6ª Linha" />
         </div>
       </details>
 
       <details>
         <summary>Arquétipos</summary>
 
-        <input id="archtype_1" type="text" placeholder="1" />
-        <input id="archtype_2" type="text" placeholder="2" />
-        <input id="archtype_3" type="text" placeholder="3" />
-        <input id="archtype_4" type="text" placeholder="4" />
-        <input id="archtype_5" type="text" placeholder="5" />
-        <input id="archtype_6" type="text" placeholder="6" />
+        <input id="archtype_1" type="text" placeholder="1ª Linha" />
+        <input id="archtype_2" type="text" placeholder="2ª Linha" />
+        <input id="archtype_3" type="text" placeholder="3ª Linha" />
+        <input id="archtype_4" type="text" placeholder="4ª Linha" />
+        <input id="archtype_5" type="text" placeholder="5ª Linha" />
+        <input id="archtype_6" type="text" placeholder="6ª Linha" />
 
         <label>
           Complemento:
@@ -145,38 +169,38 @@
 
         <strong>Lugares</strong>
         <div class="grid">
-          <input id="place_1" type="text" placeholder="1" />
-          <input id="place_2" type="text" placeholder="2" />
-          <input id="place_3" type="text" placeholder="3" />
+          <input id="place_1" type="text" placeholder="1ª Linha" />
+          <input id="place_2" type="text" placeholder="2ª Linha" />
+          <input id="place_3" type="text" placeholder="3ª Linha" />
         </div>
         <div class="grid">
-          <input id="place_4" type="text" placeholder="4" />
-          <input id="place_5" type="text" placeholder="5" />
-          <input id="place_6" type="text" placeholder="6" />
+          <input id="place_4" type="text" placeholder="4ª Linha" />
+          <input id="place_5" type="text" placeholder="5ª Linha" />
+          <input id="place_6" type="text" placeholder="6ª Linha" />
         </div>
 
         <strong>Personagens</strong>
         <div class="grid">
-          <input id="char_1" type="text" placeholder="1" />
-          <input id="char_2" type="text" placeholder="2" />
-          <input id="char_3" type="text" placeholder="3" />
+          <input id="char_1" type="text" placeholder="1ª Linha" />
+          <input id="char_2" type="text" placeholder="2ª Linha" />
+          <input id="char_3" type="text" placeholder="3ª Linha" />
         </div>
         <div class="grid">
-          <input id="char_4" type="text" placeholder="4" />
-          <input id="char_5" type="text" placeholder="5" />
-          <input id="char_6" type="text" placeholder="6" />
+          <input id="char_4" type="text" placeholder="4ª Linha" />
+          <input id="char_5" type="text" placeholder="5ª Linha" />
+          <input id="char_6" type="text" placeholder="6ª Linha" />
         </div>
 
         <strong>Eventos</strong>
         <div class="grid">
-          <input id="event_1" type="text" placeholder="1" />
-          <input id="event_2" type="text" placeholder="2" />
-          <input id="event_3" type="text" placeholder="3" />
+          <input id="event_1" type="text" placeholder="1ª Linha" />
+          <input id="event_2" type="text" placeholder="2ª Linha" />
+          <input id="event_3" type="text" placeholder="3ª Linha" />
         </div>
         <div class="grid">
-          <input id="event_4" type="text" placeholder="4" />
-          <input id="event_5" type="text" placeholder="5" />
-          <input id="event_6" type="text" placeholder="6" />
+          <input id="event_4" type="text" placeholder="4ª Linha" />
+          <input id="event_5" type="text" placeholder="5ª Linha" />
+          <input id="event_6" type="text" placeholder="6ª Linha" />
         </div>
       </details>
 
@@ -187,80 +211,80 @@
           1ª Coluna:
           <input
             type="text"
-            class="idea_col_name"
+            class="col-name"
             placeholder="Ação"
             id="idea_col_1_name"
           />
         </label>
         <div class="grid">
-          <input id="idea_col_1_1" type="text" placeholder="1" />
-          <input id="idea_col_1_2" type="text" placeholder="2" />
-          <input id="idea_col_1_3" type="text" placeholder="3" />
+          <input id="idea_col_1_1" type="text" placeholder="1ª Linha" />
+          <input id="idea_col_1_2" type="text" placeholder="2ª Linha" />
+          <input id="idea_col_1_3" type="text" placeholder="3ª Linha" />
         </div>
         <div class="grid">
-          <input id="idea_col_1_4" type="text" placeholder="4" />
-          <input id="idea_col_1_5" type="text" placeholder="5" />
-          <input id="idea_col_1_6" type="text" placeholder="6" />
+          <input id="idea_col_1_4" type="text" placeholder="4ª Linha" />
+          <input id="idea_col_1_5" type="text" placeholder="5ª Linha" />
+          <input id="idea_col_1_6" type="text" placeholder="6ª Linha" />
         </div>
 
         <label>
           2ª Coluna:
           <input
             type="text"
-            class="idea_col_name"
+            class="col-name"
             placeholder="Assunto"
             id="idea_col_2_name"
           />
         </label>
         <div class="grid">
-          <input id="idea_col_2_1" type="text" placeholder="1" />
-          <input id="idea_col_2_2" type="text" placeholder="2" />
-          <input id="idea_col_2_3" type="text" placeholder="3" />
+          <input id="idea_col_2_1" type="text" placeholder="1ª Linha" />
+          <input id="idea_col_2_2" type="text" placeholder="2ª Linha" />
+          <input id="idea_col_2_3" type="text" placeholder="3ª Linha" />
         </div>
         <div class="grid">
-          <input id="idea_col_2_4" type="text" placeholder="4" />
-          <input id="idea_col_2_5" type="text" placeholder="5" />
-          <input id="idea_col_2_6" type="text" placeholder="6" />
+          <input id="idea_col_2_4" type="text" placeholder="4ª Linha" />
+          <input id="idea_col_2_5" type="text" placeholder="5ª Linha" />
+          <input id="idea_col_2_6" type="text" placeholder="6ª Linha" />
         </div>
 
         <label>
           3ª Coluna:
           <input
             type="text"
-            class="idea_col_name"
+            class="col-name"
             placeholder="Coisa"
             id="idea_col_3_name"
           />
         </label>
         <div class="grid">
-          <input id="idea_col_3_1" type="text" placeholder="1" />
-          <input id="idea_col_3_2" type="text" placeholder="2" />
-          <input id="idea_col_3_3" type="text" placeholder="3" />
+          <input id="idea_col_3_1" type="text" placeholder="1ª Linha" />
+          <input id="idea_col_3_2" type="text" placeholder="2ª Linha" />
+          <input id="idea_col_3_3" type="text" placeholder="3ª Linha" />
         </div>
         <div class="grid">
-          <input id="idea_col_3_4" type="text" placeholder="4" />
-          <input id="idea_col_3_5" type="text" placeholder="5" />
-          <input id="idea_col_3_6" type="text" placeholder="6" />
+          <input id="idea_col_3_4" type="text" placeholder="4ª Linha" />
+          <input id="idea_col_3_5" type="text" placeholder="5ª Linha" />
+          <input id="idea_col_3_6" type="text" placeholder="6ª Linha" />
         </div>
 
         <label>
           4ª Coluna:
           <input
-            class="idea_col_name"
+            class="col-name"
             type="text"
             placeholder="Qualidade"
             id="idea_col_4_name"
           />
         </label>
         <div class="grid">
-          <input id="idea_col_4_1" type="text" placeholder="1" />
-          <input id="idea_col_4_2" type="text" placeholder="2" />
-          <input id="idea_col_4_3" type="text" placeholder="3" />
+          <input id="idea_col_4_1" type="text" placeholder="1ª Linha" />
+          <input id="idea_col_4_2" type="text" placeholder="2ª Linha" />
+          <input id="idea_col_4_3" type="text" placeholder="3ª Linha" />
         </div>
         <div class="grid">
-          <input id="idea_col_4_4" type="text" placeholder="4" />
-          <input id="idea_col_4_5" type="text" placeholder="5" />
-          <input id="idea_col_4_6" type="text" placeholder="6" />
+          <input id="idea_col_4_4" type="text" placeholder="4ª Linha" />
+          <input id="idea_col_4_5" type="text" placeholder="5ª Linha" />
+          <input id="idea_col_4_6" type="text" placeholder="6ª Linha" />
         </div>
       </details>
 
@@ -380,11 +404,11 @@
     </footer>
 
     <script src="js/pdfmake.min.js?v=0.2.7"></script>
-    <script src="js/helpers.js?v=1.1.1"></script>
-    <script src="js/demo.js?v=1.1.1"></script>
-    <script src="js/fonts.js?v=1.1.1"></script>
-    <script src="js/styles.js?v=1.1.1"></script>
-    <script src="js/table.js?v=1.1.1"></script>
-    <script src="js/app.js?v=1.1.1"></script>
+    <script src="js/helpers.js?v=1.2.0"></script>
+    <script src="js/demo.js?v=1.2.0"></script>
+    <script src="js/fonts.js?v=1.2.0"></script>
+    <script src="js/styles.js?v=1.2.0"></script>
+    <script src="js/table.js?v=1.2.0"></script>
+    <script src="js/app.js?v=1.2.0"></script>
   </body>
 </html>
