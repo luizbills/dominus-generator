@@ -186,7 +186,11 @@ function getContent(data) {
               text: 'Role (ou escolha) uma linha de cada uma dessas três colunas:',
             },
             createTable(
-              ['ALGO ACONTECEU...', 'VOCÊ PRECISA...', 'SENÃO...'],
+              [
+                data.plot_header || 'ALGO ACONTECEU...',
+                data.mission_header || 'VOCÊ PRECISA...',
+                data.ifnot_header || 'SENÃO...',
+              ],
               [
                 [data.plot_1, data.mission_1, data.ifnot_1],
                 [data.plot_2, data.mission_2, data.ifnot_2],

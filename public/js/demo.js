@@ -7,6 +7,7 @@ function getDemo() {
     description:
       'O mundo foi para o ralo, a chamada "civilização ocidental" caiu. E você está no meio disso tudo. No que você achou que seria um dia de comum, você tem que tentar sobreviver ao apocalipse. Seja ele qual for.',
 
+    plot_header: '',
     plot_1: 'Os mortos começaram a andar',
     plot_2: 'OVNIs tomaram os céus',
     plot_3: 'Bombas nucleares foram lançadas',
@@ -14,6 +15,7 @@ function getDemo() {
     plot_5: 'Um meteoro vai bater na terra',
     plot_6: 'Cthulhu surge na costa da cidade',
 
+    mission_header: '',
     mission_1: 'Encontrar um lugar seguro',
     mission_2: 'Resgatar familiares',
     mission_3: 'Conseguir mantimentos',
@@ -21,6 +23,7 @@ function getDemo() {
     mission_5: 'Investigar a causa',
     mission_6: 'Tentar impedir o fim',
 
+    ifnot_header: '',
     ifnot_1: 'Eles vão pegar vocês!',
     ifnot_2: 'As bombas serão acionadas!',
     ifnot_3: 'Tudo terá sido em vão!',
