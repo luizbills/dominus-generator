@@ -25,6 +25,8 @@
           clicar no botão para ver o resultado.</em
         >
       </p>
+
+      <div id="header-bottom"></div>
     </header>
 
     <main class="container" id="fields">
@@ -61,7 +63,7 @@
         <label>
           Imagem da capa:
           <input
-            id="cover"
+            class="cover-file"
             type="file"
             accept="image/png, image/jpg, image/jpeg"
           />
@@ -396,12 +398,16 @@
         <summary>Exportar & Importar</summary>
 
         <p>
-          <em
-            >Use o botão <strong>EXPORTAR</strong> para gerar um arquivo
-            contendo todas as informações que você preencheu. Depois use o botão
-            <strong>IMPORTAR</strong> para carregar o arquivo gerado e restaurar
-            as informações do seu jogo em outro aparelho.</em
-          >
+          Use o botão <strong>EXPORTAR</strong> para gerar um arquivo contendo
+          todas as informações que você preencheu. Depois use o botão
+          <strong>IMPORTAR</strong> para carregar o arquivo gerado e restaurar
+          as informações do seu jogo em outro aparelho. <br /
+        </p>
+
+        <p class="notice-warning">
+          Atenção: A imagem da capa não será exportada. Se você já tiver
+          escolhido uma, lembre de transferir a imagem para o outro aparelho
+          também.
         </p>
 
         <div class="grid">

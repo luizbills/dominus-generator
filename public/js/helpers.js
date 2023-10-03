@@ -75,11 +75,23 @@ function slugify(str) {
     .replace(/-+/g, '-'); // remove consecutive hyphens
 }
 
-function readCoverImage(callback) {
-  const input = $('#cover');
-  const file = input.files ? input.files[0] : null;
+function resetCoverField() {
+  const coverFile = $('.cover-file');
+  if (coverFile) coverFile.value = '';
+}
 
-  if (window.demoCoverImage && null == file) {
+function getCover() {
+  const input = $('.cover-file');
+  return {
+    type: 'file',
+    value: input.files ? input.files[0] : null,
+  };
+}
+
+function readCoverImage(callback) {
+  const cover = getCover();
+
+  if (!cover.value && window.demoCoverImage) {
     callback(false, window.demoCoverImage);
     return;
   }
@@ -128,33 +140,72 @@ function hasData() {
 }
 
 function validateData(data) {
-  data.title = data.title?.trim();
+  data.title = trim(data.title);
+
   if (!data.title) {
     alert('Seu jogo precisa de um título');
-    return false;
-  }
-  if (!data.cover && !window.demoCoverImage) {
-    alert('Seu jogo precisa de uma imagem de capa');
     return false;
   }
 
   return true;
 }
 
+function validateCover() {
+  const cover = getCover();
+  if (!cover.value && !window.demoCoverImage) {
+    alert('Seu jogo precisa de uma imagem de capa');
+    return false;
+  }
+  return true;
+}
+
 function exportData() {
   const data = getData(false);
 
-  data.cover = true;
   if (!validateData(data)) return;
-  delete data.cover;
 
   const exportJson = {
     version: 1,
-    data: data,
+    data,
     advanced: {}, // TODO
   };
   const filename = 'dominusgen-' + slugify(data.title);
   downloadObjectAsJson(exportJson, filename);
+}
+
+function importJsonFile(file, callback) {
+  if (!file) return;
+
+  const fr = new FileReader();
+
+  if ('application/json' !== file.type) {
+    const error = 'Tipo de arquivo inválido';
+    return callback(error, null);
+  }
+
+  fr.addEventListener('load', function (evt) {
+    let error = false;
+
+    callback(error, !error ? evt.target.result : null);
+  });
+
+  if (file) {
+    fr.readAsText(file, 'UTF-8');
+  }
+}
+
+function restoreDataFromObject(object) {
+  const data = getData(false);
+  const result = {};
+
+  for (const key of Object.keys(data)) {
+    if ('string' !== typeof object.data[key]) {
+      console.error('Invalid value in key: ' + key);
+      continue;
+    }
+    result[key] = object.data[key];
+  }
+  fillFields(result);
 }
 
 function fillFields(data) {
@@ -164,6 +215,7 @@ function fillFields(data) {
     if (!field) continue;
     field.value = data[key];
   }
+  resetCoverField();
 }
 
 function cleanString(str) {
@@ -206,4 +258,15 @@ function downloadObjectAsJson(object, filename) {
   document.body.appendChild(tmpNode);
   tmpNode.click();
   tmpNode.remove();
+}
+
+function openFirstSection() {
+  const sections = $$('#fields details');
+  for (let i = 0; i < sections.length; ++i) {
+    const first = 0 === i;
+    sections[i].open = first;
+    if (first) {
+      $('#header-bottom').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }
