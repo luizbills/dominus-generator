@@ -16,6 +16,10 @@ details > summary {
   display: inline;
 }
 
+.hide {
+  display: none !important;
+}
+
 #actions,
 #copyright {
   margin-top: 3rem;
