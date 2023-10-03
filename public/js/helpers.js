@@ -107,6 +107,7 @@ function getData(format = true) {
 
   const data = {};
   for (const field of fields) {
+    if (!field.id) continue;
     data[field.id] = field.value || '';
   }
 
@@ -126,14 +127,34 @@ function hasData() {
   return Object.values(data).join('').trim() !== '';
 }
 
-function cleanString(str) {
-  return str.replace(/[^0-9A-Z\s]/gi, '').trim();
+function validateData(data) {
+  data.title = data.title?.trim();
+  if (!data.title) {
+    alert('Seu jogo precisa de um título');
+    return false;
+  }
+  if (!data.cover && !window.demoCoverImage) {
+    alert('Seu jogo precisa de uma imagem de capa');
+    return false;
+  }
+
+  return true;
 }
 
-function isMobile() {
-  return (
-    'ontouchstart' in document.documentElement && window.innerWidth <= 1100
-  );
+function exportData() {
+  const data = getData(false);
+
+  data.cover = true;
+  if (!validateData(data)) return;
+  delete data.cover;
+
+  const exportJson = {
+    version: 1,
+    data: data,
+    advanced: {}, // TODO
+  };
+  const filename = 'dominusgen-' + slugify(data.title);
+  downloadObjectAsJson(exportJson, filename);
 }
 
 function fillFields(data) {
@@ -145,6 +166,44 @@ function fillFields(data) {
   }
 }
 
+function cleanString(str) {
+  return (str || '').trim().replace(/[^0-9a-z\s]/gi, '');
+}
+
+// based on https://stackoverflow.com/a/54837767
+function slugify(str) {
+  return str
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') //remove diacritics
+    .toLowerCase()
+    .replace(/\s+/g, '-') //spaces to dashes
+    .replace(/&/g, '-and-') //ampersand to and
+    .replace(/[^\w\-]+/g, '') //remove non-words
+    .replace(/\-\-+/g, '-') //collapse multiple dashes
+    .replace(/^-+/, '') //trim starting dash
+    .replace(/-+$/, ''); //trim ending dash
+}
+
+function isMobile() {
+  return (
+    'ontouchstart' in document.documentElement && window.innerWidth <= 1100
+  );
+}
+
 function trim(str) {
   return 'string' === typeof str ? str.trim() : '';
+}
+
+function downloadObjectAsJson(object, filename) {
+  const tmpNode = document.createElement('a');
+  tmpNode.setAttribute(
+    'href',
+    'data:application/json;charset=utf-8,' +
+      encodeURIComponent(JSON.stringify(object))
+  );
+  tmpNode.setAttribute('download', filename + '.json');
+  document.body.appendChild(tmpNode);
+  tmpNode.click();
+  tmpNode.remove();
 }

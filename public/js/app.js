@@ -1,6 +1,11 @@
+// $ is not jQuery (see helpers.js)
 const btnPreview = $('#preview');
 const btnDownload = $('#download');
 const btnDemo = $('#load-demo');
+const btnImport = $('#btn-import');
+const inputImport = $('.input-import');
+const btnExport = $('#btn-export');
+
 const URL = window.URL || window.webkitURL;
 const url = new URL(location.href);
 const params = {
@@ -11,6 +16,10 @@ const params = {
 if ('dark' === params.theme || 'light' === params.theme) {
   document.documentElement.dataset.theme = params.theme;
 }
+
+btnExport.addEventListener('click', () => {
+  exportData();
+});
 
 // preview (avaliable only in desktop)
 if (isMobile()) {
@@ -78,11 +87,10 @@ btnDownload.addEventListener('click', (ev) => {
 
 // load demo
 btnDemo.addEventListener('click', (ev) => {
-  if (hasData()) {
-    const message =
-      'Você já preencheu alguns campos, tem certeza que quer continuar?';
-    if (!confirm(message)) return;
-  }
+  const warning =
+    'Todos os campos serão reescritos. Tem certeza que quer continuar?';
+  if (!confirm(warning)) return;
+
   const demo = getDemo();
   window.demoCoverImage = demo.coverImage;
   fillFields(demo);
@@ -127,18 +135,6 @@ function createPdf(data) {
     getFonts(data)
   );
   return pdf;
-}
-
-function validateData(data) {
-  data.title = data.title?.trim();
-  if (!data.title) {
-    return !!alert('Seu jogo precisa de um título');
-  }
-  if (!data.cover && !window.demoCoverImage) {
-    return !!alert('Seu jogo precisa de uma imagem de capa');
-  }
-
-  return true;
 }
 
 function getContent(data) {
