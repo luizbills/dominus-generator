@@ -384,12 +384,42 @@
           ></textarea>
         </label>
       </details>
+    </main>
 
+    <aside class="container">
       <section class="container" id="actions">
         <button id="download">Baixar Seu Jogo</button>
         <button id="preview" class="secondary">Visualizar</button>
       </section>
-    </main>
+
+      <details>
+        <summary>Exportar & Importar</summary>
+
+        <p>
+          <em
+            >Use o botão <strong>EXPORTAR</strong> para gerar um arquivo
+            contendo todas as informações que você preencheu. Depois use o botão
+            <strong>IMPORTAR</strong> para carregar o arquivo gerado e restaurar
+            as informações do seu jogo em outro aparelho.</em
+          >
+        </p>
+
+        <div class="grid">
+          <label>
+            <button id="btn-export" class="secondary">Exportar</button>
+          </label>
+
+          <label>
+            <button id="btn-import" class="secondary">Importar</button>
+            <input
+              type="file"
+              class="hide input-import"
+              accept="application/json"
+            />
+          </label>
+        </div>
+      </details>
+    </aside>
 
     <footer id="copyright">
       <small>
