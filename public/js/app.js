@@ -185,9 +185,19 @@ function getContent(data) {
             // second column consists of paragraphs
             { text: data.title, style: 'header' },
             {
-              text:
-                `Escrito por "${data.author}".` +
-                (data.more ? ' ' + data.more : ''),
+              text: [
+                `Escrito por "${data.author}"`,
+                data.advanced.credits ? ' usando o ' : '',
+                data.advanced.credits
+                  ? {
+                      text: 'DOMINUSGEN',
+                      link: 'https://bills.itch.io/dominusgen/',
+                      decoration: 'underline',
+                    }
+                  : '',
+                '.',
+                data.more ? ' ' + data.more : '',
+              ],
               style: 'body',
               fontSize: 9,
             },

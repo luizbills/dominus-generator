@@ -90,8 +90,9 @@ function getCover() {
 
 function readCoverImage(callback) {
   const cover = getCover();
+  const file = cover.value;
 
-  if (!cover.value && window.demoCoverImage) {
+  if (!file && window.demoCoverImage) {
     callback(false, window.demoCoverImage);
     return;
   }
@@ -113,15 +114,27 @@ function readCoverImage(callback) {
   }
 }
 
+function validateCover() {
+  const cover = getCover();
+  if (!cover.value && !window.demoCoverImage) {
+    alert('Seu jogo precisa de uma imagem de capa');
+    return false;
+  }
+  return true;
+}
+
 function getData(format = true) {
   const root = $('#fields');
   const fields = $$('input, textarea, select', root);
-
+  const advanced = getAdvancedOptions();
   const data = {};
+
   for (const field of fields) {
     if (!field.id) continue;
     data[field.id] = field.value || '';
   }
+
+  data.advanced = format ? formatData(advanced) : advanced;
 
   return format ? formatData(data) : data;
 }
@@ -129,7 +142,7 @@ function getData(format = true) {
 function formatData(data) {
   for (const key of Object.keys(data)) {
     if (!data[key] || 'string' !== typeof data[key]) continue;
-    data[key] = data[key].replace(/\\n/g, '\n');
+    data[key] = data[key].trim().replace(/\\n/g, '\n');
   }
   return data;
 }
@@ -143,19 +156,15 @@ function validateData(data) {
   data.title = trim(data.title);
 
   if (!data.title) {
-    alert('Seu jogo precisa de um título');
+    alert('Informe o título do jogo');
     return false;
   }
 
-  return true;
-}
-
-function validateCover() {
-  const cover = getCover();
-  if (!cover.value && !window.demoCoverImage) {
-    alert('Seu jogo precisa de uma imagem de capa');
+  if (!data.author) {
+    alert('Informe o nome do autor(a) do jogo');
     return false;
   }
+
   return true;
 }
 
@@ -171,6 +180,13 @@ function exportData() {
   };
   const filename = 'dominusgen-' + slugify(data.title);
   downloadObjectAsJson(exportJson, filename);
+}
+
+function getAdvancedOptions() {
+  const root = $('#advanced');
+  return {
+    credits: $('#credits', root)?.checked,
+  };
 }
 
 function importJsonFile(file, callback) {

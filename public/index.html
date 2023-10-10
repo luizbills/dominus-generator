@@ -45,10 +45,12 @@
           >
         </label>
 
-        <label>
-          Nome do autor:
-          <input id="author" type="text" placeholder="Quem fez o jogo?" />
-        </label>
+        <div class="grid">
+          <label>
+            Nome do autor(a):
+            <input id="author" type="text" placeholder="Quem fez o jogo?" />
+          </label>
+        </div>
 
         <label>
           Complemento:
@@ -405,9 +407,8 @@
         </p>
 
         <p class="notice-warning">
-          Atenção: A imagem da capa não será exportada. Se você já tiver
-          escolhido uma, lembre de transferir a imagem para o outro aparelho
-          também.
+          Atenção: A imagem da capa não será exportada. Lembre de guardar sua
+          imagem em algum lugar para você recupera-la depois.
         </p>
 
         <div class="grid">
@@ -424,6 +425,17 @@
             />
           </label>
         </div>
+      </details>
+
+      <details id="advanced">
+        <summary>Opções avançadas</summary>
+
+        <p>
+          <label>
+            <input type="checkbox" id="credits" /> Eu aceito dar créditos ao
+            DOMINUSGEN.
+          </label>
+        </p>
       </details>
     </aside>
 
