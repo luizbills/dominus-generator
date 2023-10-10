@@ -17,10 +17,9 @@ function getDocumentDefination(data) {
     pageOrientation: 'landscape',
     pageMargins: 25,
     styles: getStyles(data),
-    pages: 6,
+    pages: 2,
     defaultStyle: getStyles().defaultStyle,
     images: getImages(data),
-    background: getBackgroundLayer(data),
     content: getContent(data),
     info: {
       title: cleanString(data.title),
@@ -58,10 +57,6 @@ function getImages(data) {
     powererBy: getUrl('images/powered-by.png'),
     line: getUrl('images/line.png'),
   };
-}
-
-function getBackgroundLayer(currentPage, pageSize) {
-  return null;
 }
 
 function slugify(str) {

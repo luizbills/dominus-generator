@@ -1,4 +1,5 @@
 function getTableLayouts(data) {
+  const dash = { length: 1, space: 1 };
   const def = {
     hLineWidth(i, node) {
       if (0 === i) return 1;
@@ -8,7 +9,7 @@ function getTableLayouts(data) {
       return i === 0 || i === node.table.widths.length ? 0 : 1;
     },
     hLineColor(i, node) {
-      return 'black';
+      return '#000';
     },
     vLineColor(i, node) {
       return 'black';
@@ -17,7 +18,7 @@ function getTableLayouts(data) {
       if (i <= 1 || i === node.table.body.length) {
         return null;
       }
-      return { dash: { length: 1, space: 1 } };
+      return { dash };
     },
     fillColor(rowIndex, node, columnIndex) {
       return rowIndex % 2 === 0 ? '#efefef' : null;
@@ -37,7 +38,7 @@ function getTableLayouts(data) {
         if (i === 0 || i === node.table.body.length) {
           return null;
         }
-        return { dash: { length: 1, space: 1 } };
+        return { dash };
       },
     },
     default: def,
