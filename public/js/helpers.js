@@ -131,7 +131,15 @@ function getData(format = true) {
 
   for (const field of fields) {
     if (!field.id) continue;
-    data[field.id] = field.value || '';
+    switch (field.type) {
+      case 'checkbox':
+        data[field.id] = field.checked ? 'yes' : '';
+        break;
+      default:
+        data[field.id] = truncate(field.value || '', field.maxLength);
+        break;
+    }
+    data[field.id] = truncate(field.value || '', field.maxLength);
   }
 
   data.advanced = format ? formatData(advanced) : advanced;
@@ -176,7 +184,6 @@ function exportData() {
   const exportJson = {
     version: 1,
     data,
-    advanced: {}, // TODO
   };
   const filename = 'dominusgen-' + slugify(data.title);
   downloadObjectAsJson(exportJson, filename);
@@ -184,8 +191,23 @@ function exportData() {
 
 function getAdvancedOptions() {
   const root = $('#advanced');
+  const fields = $$('input, select, textarea', root);
+  const opts = {};
+
+  for (const field of fields) {
+    if (!field.id) continue;
+    switch (field.type) {
+      case 'checkbox':
+        opts[field.id] = field.checked ? 'yes' : '';
+        break;
+      default:
+        opts[field.id] = truncate(field.value || '', field.maxLength);
+        break;
+    }
+  }
+
   return {
-    credits: $('#credits', root)?.checked,
+    ...opts,
   };
 }
 
@@ -215,21 +237,59 @@ function restoreDataFromObject(object) {
   const result = {};
 
   for (const key of Object.keys(data)) {
+    if ('advanced' === key) continue;
     if ('string' !== typeof object.data[key]) {
       console.error('Invalid value in key: ' + key);
       continue;
     }
-    result[key] = object.data[key];
+    result[key] = truncate(object.data[key]);
+  }
+
+  // load advanced options
+  object.data.advanced = object.data.advanced || {};
+  result.advanced = {};
+  for (const key of Object.keys(data.advanced)) {
+    const value = object.data.advanced[key];
+    if ('string' !== typeof value) {
+      console.error('Invalid advanced value in key: ' + key, value);
+      continue;
+    }
+    result.advanced[key] = truncate(value);
   }
   fillFields(result);
 }
 
 function fillFields(data) {
   for (const key of Object.keys(data)) {
-    if (!key || 'string' !== typeof data[key]) continue;
+    if ('string' !== typeof data[key]) continue;
     const field = $(`#${key}`);
     if (!field) continue;
-    field.value = data[key];
+    switch (field.type) {
+      case 'checkbox':
+        field.checked = 'yes' === data[key];
+        break;
+      default:
+        field.value = data[key];
+        break;
+    }
+  }
+
+  const advancedRoot = $('#advanced');
+  for (const key of Object.keys(data.advanced || {})) {
+    if ('string' !== typeof data.advanced[key]) continue;
+    const field = $(`#${key}`, advancedRoot);
+    if (!field) {
+      console.error('Not found advanced field with ID #', key);
+      continue;
+    }
+    switch (field.type) {
+      case 'checkbox':
+        field.checked = 'yes' === data.advanced[key];
+        break;
+      default:
+        field.value = data.advanced[key];
+        break;
+    }
   }
   resetCoverField();
 }
@@ -276,13 +336,25 @@ function downloadObjectAsJson(object, filename) {
   tmpNode.remove();
 }
 
-function openFirstSection() {
-  const sections = $$('#fields details');
+function resetSections() {
+  const sections = $$('details');
   for (let i = 0; i < sections.length; ++i) {
     const first = 0 === i;
-    sections[i].open = first;
+    sections[i].open = first || sections[i].id === 'advanced';
     if (first) {
       $('#header-bottom').scrollIntoView({ behavior: 'smooth' });
     }
   }
+}
+
+/**
+ * @param {string} str
+ * @param {int} maxlength
+ * @returns {string}
+ */
+function truncate(str, maxlength = null) {
+  if (!maxlength || maxlength < 0) {
+    maxlength = 500;
+  }
+  return (str || '').substring(0, +maxlength || 0);
 }

@@ -94,7 +94,7 @@ btnDemo.addEventListener('click', (ev) => {
   const demo = getDemo();
   window.demoCoverImage = demo.coverImage;
   fillFields(demo);
-  openFirstSection();
+  resetSections();
 });
 
 if (params.demo) {
@@ -146,14 +146,12 @@ inputImport.addEventListener('change', (evt) => {
   importJsonFile(file, (err, content) => {
     if (err) return alert(err);
     const json = JSON.parse(content);
-    if (
-      json.version > 0 &&
-      typeof json.data === 'object' &&
-      typeof json.advanced === 'object'
-    ) {
+    if (json.version > 0 && typeof json.data === 'object') {
       restoreDataFromObject(json);
       saveDataInLocalStorage();
-      openFirstSection();
+      resetSections();
+    } else {
+      alert('Erro: arquivo inválido ou corrompido');
     }
   });
 });
@@ -175,6 +173,9 @@ function createPdf(data) {
 
 function getContent(data) {
   const columnGap = 30;
+  const hasSubtitle = !!data.advanced.subtitle;
+  const coverSize = hasSubtitle ? [300, 300] : [320, 320];
+  const coverWrapperHeight = hasSubtitle ? 325 : 350;
   return [
     // first page
     {
@@ -449,6 +450,7 @@ function getContent(data) {
           ],
         },
         {
+          // Cover
           stack: [
             {
               pageBreak: 'before',
@@ -456,6 +458,13 @@ function getContent(data) {
               style: ['header', 'title'],
               alignment: 'center',
             },
+            data.advanced.subtitle
+              ? {
+                  text: data.advanced.subtitle,
+                  fontSize: 12,
+                  alignment: 'center',
+                }
+              : null,
             createSpacer(10),
             createLine(),
             createSpacer(20),
@@ -465,7 +474,7 @@ function getContent(data) {
                 [
                   {
                     image: data.coverImage,
-                    fit: [320, 320],
+                    fit: coverSize,
                     // width: 340,
                     // height: 340,
                     alignment: 'center',
@@ -476,7 +485,7 @@ function getContent(data) {
                 widths: ['*'],
                 d6: false,
                 layout: 'invisible',
-                heights: 350,
+                heights: coverWrapperHeight,
                 margin: 0,
               }
             ),
