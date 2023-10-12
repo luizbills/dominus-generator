@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DOMINUSGEN</title>
     <link rel="stylesheet" href="css/pico.min.css?v=1.5.10" />
-    <link rel="stylesheet" href="css/app.css?v=1.2.0" />
+    <link rel="stylesheet" href="css/app.css?v=1.3.0" />
   </head>
   <body>
     <header class="container">
@@ -25,6 +25,8 @@
           clicar no botão para ver o resultado.</em
         >
       </p>
+
+      <div id="header-bottom"></div>
     </header>
 
     <main class="container" id="fields">
@@ -43,10 +45,12 @@
           >
         </label>
 
-        <label>
-          Nome do autor:
-          <input id="author" type="text" placeholder="Quem fez o jogo?" />
-        </label>
+        <div class="grid">
+          <label>
+            Nome do autor(a):
+            <input id="author" type="text" placeholder="Quem fez o jogo?" />
+          </label>
+        </div>
 
         <label>
           Complemento:
@@ -61,7 +65,7 @@
         <label>
           Imagem da capa:
           <input
-            id="cover"
+            class="cover-file"
             type="file"
             accept="image/png, image/jpg, image/jpeg"
           />
@@ -384,15 +388,69 @@
           ></textarea>
         </label>
       </details>
+    </main>
 
+    <aside class="container">
       <section class="container" id="actions">
         <button id="download">Baixar Seu Jogo</button>
         <button id="preview" class="secondary">Visualizar</button>
       </section>
-    </main>
+
+      <details>
+        <summary>Exportar & Importar</summary>
+
+        <p>
+          Use o botão <strong>EXPORTAR</strong> para gerar um arquivo contendo
+          todas as informações que você preencheu. Depois use o botão
+          <strong>IMPORTAR</strong> para carregar o arquivo gerado e restaurar
+          as informações do seu jogo em outro aparelho. <br /
+        </p>
+
+        <p class="notice-warning">
+          Atenção: A imagem da capa não será exportada. Lembre de guardar sua
+          imagem em algum lugar para você recupera-la depois.
+        </p>
+
+        <div class="grid">
+          <label>
+            <button id="btn-export" class="secondary">Exportar</button>
+          </label>
+
+          <label>
+            <button id="btn-import" class="secondary">Importar</button>
+            <input
+              type="file"
+              class="hide input-import"
+              accept="application/json"
+            />
+          </label>
+        </div>
+      </details>
+
+      <details id="advanced">
+        <summary>Opções avançadas</summary>
+
+        <p>
+          <label>
+            <input type="checkbox" id="credits" /> Eu aceito dar créditos ao
+            DOMINUSGEN.
+          </label>
+        </p>
+
+        <p>
+          <label
+            >Título secundário da capa
+            <input type="text" id="subtitle" maxlength="50" />
+            <small
+              >Uma frase curta que aparecerá abaixo do título da capa.</small
+            >
+          </label>
+        </p>
+      </details>
+    </aside>
 
     <footer id="copyright">
-      <small>
+      <p>
         Um projeto de
         <a
           href="https://github.com/luizbills/dominus-generator/"
@@ -401,15 +459,16 @@
           >código aberto</a
         >
         criado por Luiz Bills
-      </small>
+      </p>
+      <p class="version">Versão: 1.3.0</p>
     </footer>
 
     <script src="js/pdfmake.min.js?v=0.2.7"></script>
-    <script src="js/helpers.js?v=1.2.0"></script>
-    <script src="js/demo.js?v=1.2.0"></script>
-    <script src="js/fonts.js?v=1.2.0"></script>
-    <script src="js/styles.js?v=1.2.0"></script>
-    <script src="js/table.js?v=1.2.0"></script>
-    <script src="js/app.js?v=1.2.0"></script>
+    <script src="js/helpers.js?v=1.3.0"></script>
+    <script src="js/demo.js?v=1.3.0"></script>
+    <script src="js/fonts.js?v=1.3.0"></script>
+    <script src="js/styles.js?v=1.3.0"></script>
+    <script src="js/table.js?v=1.3.0"></script>
+    <script src="js/app.js?v=1.3.0"></script>
   </body>
 </html>

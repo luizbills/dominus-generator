@@ -16,6 +16,10 @@ details > summary {
   display: inline;
 }
 
+.hide {
+  display: none !important;
+}
+
 #actions,
 #copyright {
   margin-top: 3rem;
@@ -25,4 +29,12 @@ details > summary {
 input.col-name {
   width: auto;
   margin-left: 1rem;
+}
+
+.notice-warning {
+  --color-warning: #ea580c;
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
+  padding: var(--spacing);
+  border-radius: 4px;
 }

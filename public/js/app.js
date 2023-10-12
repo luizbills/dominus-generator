@@ -1,6 +1,11 @@
+// $ is not jQuery (see helpers.js)
 const btnPreview = $('#preview');
 const btnDownload = $('#download');
 const btnDemo = $('#load-demo');
+const btnImport = $('#btn-import');
+const inputImport = $('.input-import');
+const btnExport = $('#btn-export');
+
 const URL = window.URL || window.webkitURL;
 const url = new URL(location.href);
 const params = {
@@ -19,6 +24,7 @@ if (isMobile()) {
   btnPreview.addEventListener('click', (ev) => {
     const data = getData();
     if (!validateData(data)) return;
+    if (!validateCover()) return;
 
     btnPreview.setAttribute('aria-busy', 'true');
     btnPreview.disabled = true;
@@ -50,6 +56,7 @@ if (isMobile()) {
 btnDownload.addEventListener('click', (ev) => {
   const data = getData();
   if (!validateData(data)) return;
+  if (!validateCover()) return;
 
   btnDownload.setAttribute('aria-busy', 'true');
   btnDownload.disabled = true;
@@ -78,15 +85,16 @@ btnDownload.addEventListener('click', (ev) => {
 
 // load demo
 btnDemo.addEventListener('click', (ev) => {
-  if (hasData()) {
-    const message =
-      'Você já preencheu alguns campos, tem certeza que quer continuar?';
-    if (!confirm(message)) return;
-  }
+  ev.preventDefault();
+
+  const warning =
+    'Todos os campos serão reescritos. Tem certeza que quer continuar?';
+  if (!confirm(warning)) return;
+
   const demo = getDemo();
   window.demoCoverImage = demo.coverImage;
   fillFields(demo);
-  $$('#fields details')[0].open = true;
+  resetSections();
 });
 
 if (params.demo) {
@@ -98,7 +106,6 @@ if (params.demo) {
 document.addEventListener('DOMContentLoaded', () => {
   const dataJson = localStorage.getItem('dominus-pt_BR');
   try {
-    console.log('restoring fields');
     const data = JSON.parse(dataJson || '{}');
     fillFields(data);
   } catch (e) {
@@ -107,19 +114,54 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // auto save
-let autosaveInterval = isMobile() ? 30000 : 10000;
-let autosaving = false;
-function autoSave() {
-  if (autosaving) return;
-  autosaving = true;
+let savingData = false;
+
+function saveDataInLocalStorage() {
+  savingData = true;
   const data = getData(false);
   delete data.cover;
   localStorage.setItem('dominus-pt_BR', JSON.stringify(data));
-  autosaving = false;
+  savingData = false;
 }
-setInterval(autoSave, autosaveInterval);
-window.addEventListener('beforeunload', autoSave);
 
+let autosaveInterval = isMobile() ? 30000 : 10000;
+
+function autoSave() {
+  if (savingData) return;
+  saveDataInLocalStorage();
+}
+
+setInterval(autoSave, autosaveInterval);
+
+window.addEventListener('beforeunload', saveDataInLocalStorage);
+
+// Import
+btnImport.addEventListener('click', () => {
+  inputImport.click();
+});
+
+inputImport.addEventListener('change', (evt) => {
+  const input = evt.target;
+  const file = input.files ? input.files[0] : null;
+  importJsonFile(file, (err, content) => {
+    if (err) return alert(err);
+    const json = JSON.parse(content);
+    if (json.version > 0 && typeof json.data === 'object') {
+      restoreDataFromObject(json);
+      saveDataInLocalStorage();
+      resetSections();
+    } else {
+      alert('Erro: arquivo inválido ou corrompido');
+    }
+  });
+});
+
+// Export
+btnExport.addEventListener('click', () => {
+  exportData();
+});
+
+// PDF creation routine
 function createPdf(data) {
   const pdf = pdfMake.createPdf(
     getDocumentDefination(data),
@@ -129,20 +171,11 @@ function createPdf(data) {
   return pdf;
 }
 
-function validateData(data) {
-  data.title = data.title?.trim();
-  if (!data.title) {
-    return !!alert('Seu jogo precisa de um título');
-  }
-  if (!data.cover && !window.demoCoverImage) {
-    return !!alert('Seu jogo precisa de uma imagem de capa');
-  }
-
-  return true;
-}
-
 function getContent(data) {
   const columnGap = 30;
+  const hasSubtitle = !!data.advanced.subtitle;
+  const coverSize = hasSubtitle ? [300, 300] : [320, 320];
+  const coverWrapperHeight = hasSubtitle ? 325 : 350;
   return [
     // first page
     {
@@ -153,9 +186,19 @@ function getContent(data) {
             // second column consists of paragraphs
             { text: data.title, style: 'header' },
             {
-              text:
-                `Escrito por "${data.author}".` +
-                (data.more ? ' ' + data.more : ''),
+              text: [
+                `Escrito por "${data.author}"`,
+                data.advanced.credits ? ' usando o ' : '',
+                data.advanced.credits
+                  ? {
+                      text: 'DOMINUSGEN',
+                      link: 'https://bills.itch.io/dominusgen/',
+                      decoration: 'underline',
+                    }
+                  : '',
+                '.',
+                data.more ? ' ' + data.more : '',
+              ],
               style: 'body',
               fontSize: 9,
             },
@@ -407,6 +450,7 @@ function getContent(data) {
           ],
         },
         {
+          // Cover
           stack: [
             {
               pageBreak: 'before',
@@ -414,6 +458,13 @@ function getContent(data) {
               style: ['header', 'title'],
               alignment: 'center',
             },
+            data.advanced.subtitle
+              ? {
+                  text: data.advanced.subtitle,
+                  fontSize: 12,
+                  alignment: 'center',
+                }
+              : null,
             createSpacer(10),
             createLine(),
             createSpacer(20),
@@ -423,7 +474,7 @@ function getContent(data) {
                 [
                   {
                     image: data.coverImage,
-                    fit: [320, 320],
+                    fit: coverSize,
                     // width: 340,
                     // height: 340,
                     alignment: 'center',
@@ -434,7 +485,7 @@ function getContent(data) {
                 widths: ['*'],
                 d6: false,
                 layout: 'invisible',
-                heights: 350,
+                heights: coverWrapperHeight,
                 margin: 0,
               }
             ),
